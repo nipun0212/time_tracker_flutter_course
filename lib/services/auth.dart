@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:time_tracker_flutter_course/app/sign_in/phone_sign_in_change_model.dart';
 
 class User {
   User({
@@ -10,6 +11,7 @@ class User {
     this.photoUrl,
     this.displayName,
   });
+
   final String uid;
   final String photoUrl;
   final String displayName;
@@ -17,18 +19,30 @@ class User {
 
 abstract class AuthBase {
   Stream<User> get onAuthStateChanged;
+
+
   Future<User> currentUser();
+
   Future<User> signInAnonymously();
+
   Future<User> signInWithEmailAndPassword(String email, String password);
+
   Future<User> createUserWithEmailAndPassword(String email, String password);
+
   Future<User> signInWithGoogle();
+
   Future<User> signInWithFacebook();
+
+  void signInWithPhoneNumber(String phoneNumber);
+
+  Future<User> sendOTP(String otp);
+
   Future<void> signOut();
 }
 
 class Auth implements AuthBase {
   final _firebaseAuth = FirebaseAuth.instance;
-
+  String verificationId;
   User _userFromFirebase(FirebaseUser user) {
     if (user == null) {
       return null;
@@ -65,8 +79,39 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<User> createUserWithEmailAndPassword(
-      String email, String password) async {
+  void signInWithPhoneNumber(String phoneNumber) async {
+    await _firebaseAuth.verifyPhoneNumber(
+      phoneNumber: '+91'+phoneNumber,
+      timeout: Duration(seconds: 60),
+      verificationCompleted: null,
+      verificationFailed: verificationFailed,
+      codeSent: codeSent,
+      codeAutoRetrievalTimeout: null,);
+  }
+  void codeSent(String verificationId, [int forceResendingToken]) {
+    this.verificationId = verificationId;
+    print('verificationId= $verificationId');
+  }
+
+  void verificationFailed(AuthException error) {
+    print("Error Occured");
+    print(error.message);
+  }
+
+  @override
+  Future<User> sendOTP(String otp) async {
+    final AuthCredential credential = PhoneAuthProvider.getCredential(
+      verificationId: this.verificationId,
+      smsCode: otp,
+    );
+    final authResult = await _firebaseAuth.signInWithCredential(credential);
+    print(authResult);
+    return _userFromFirebase(authResult.user);
+  }
+
+  @override
+  Future<User> createUserWithEmailAndPassword(String email,
+      String password) async {
     final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     return _userFromFirebase(authResult.user);
@@ -129,4 +174,10 @@ class Auth implements AuthBase {
     await facebookLogin.logOut();
     await _firebaseAuth.signOut();
   }
+
+ 
+
+
+
+
 }
