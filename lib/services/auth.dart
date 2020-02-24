@@ -20,7 +20,6 @@ class User {
 abstract class AuthBase {
   Stream<User> get onAuthStateChanged;
 
-
   Future<User> currentUser();
 
   Future<User> signInAnonymously();
@@ -33,16 +32,19 @@ abstract class AuthBase {
 
   Future<User> signInWithFacebook();
 
-  void signInWithPhoneNumber(String phoneNumber);
+  void signInWithPhoneNumber(String phoneNumber,Function(String verificationId, [int forceResendingToken]) ab);
 
-  Future<User> sendOTP(String otp);
+  Future<User> sendOTP(String otp,String verificationId);
 
   Future<void> signOut();
 }
 
 class Auth implements AuthBase {
+  Auth({this.cs});
   final _firebaseAuth = FirebaseAuth.instance;
+  final Function(PhoneCodeSent) cs;
   String verificationId;
+
   User _userFromFirebase(FirebaseUser user) {
     if (user == null) {
       return null;
@@ -79,16 +81,20 @@ class Auth implements AuthBase {
   }
 
   @override
-  void signInWithPhoneNumber(String phoneNumber) async {
-    await _firebaseAuth.verifyPhoneNumber(
-      phoneNumber: '+91'+phoneNumber,
+  void signInWithPhoneNumber(String phoneNumber,Function(String verificationId, [int forceResendingToken]) ab) async{
+    print('called');
+     await _firebaseAuth.verifyPhoneNumber(
+      phoneNumber: '+91' + phoneNumber,
       timeout: Duration(seconds: 60),
       verificationCompleted: null,
       verificationFailed: verificationFailed,
-      codeSent: codeSent,
-      codeAutoRetrievalTimeout: null,);
+      codeSent: ab,
+      codeAutoRetrievalTimeout: null,
+    );
   }
-  void codeSent(String verificationId, [int forceResendingToken]) {
+
+  void codeSent<PhoneCodeSent>(String verificationId,
+      [int forceResendingToken]) {
     this.verificationId = verificationId;
     print('verificationId= $verificationId');
   }
@@ -99,9 +105,9 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<User> sendOTP(String otp) async {
+  Future<User> sendOTP(String otp,verificationId) async {
     final AuthCredential credential = PhoneAuthProvider.getCredential(
-      verificationId: this.verificationId,
+      verificationId: verificationId,
       smsCode: otp,
     );
     final authResult = await _firebaseAuth.signInWithCredential(credential);
@@ -110,8 +116,8 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<User> createUserWithEmailAndPassword(String email,
-      String password) async {
+  Future<User> createUserWithEmailAndPassword(
+      String email, String password) async {
     final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     return _userFromFirebase(authResult.user);
@@ -174,10 +180,4 @@ class Auth implements AuthBase {
     await facebookLogin.logOut();
     await _firebaseAuth.signOut();
   }
-
- 
-
-
-
-
 }

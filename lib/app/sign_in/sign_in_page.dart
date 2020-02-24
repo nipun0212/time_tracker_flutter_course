@@ -155,7 +155,7 @@ class SignInPage extends StatelessWidget {
           SizedBox(height: 8.0),
           SignInButton(
             key: phoneKey,
-            text: 'Sign in with phone',
+            text: 'Sign in with phones',
             textColor: Colors.white,
             color: Colors.teal[700],
             onPressed: isLoading ? null : () => _signInWithPhone(context),

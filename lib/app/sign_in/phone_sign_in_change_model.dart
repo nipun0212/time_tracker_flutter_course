@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/email_sign_in_model.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/phone_sign_in_model.dart';
@@ -22,15 +23,22 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   bool isLoading;
   bool submitted;
 
+  void ab(String verificationId, [int forceResendingToken])async {
+    print('me 2called');
+    print('verificationId$verificationId');
+    isLoading = true;
+    print(await auth.sendOTP('123456',verificationId));
+
+  }
   Future<void> submit() async {
     updateWith(submitted: true, isLoading: true);
     try {
       if (formType == PhoneSignInFormType.sendOTP) {
-       await auth.signInWithPhoneNumber(phoneNumber);
-       print(await auth.sendOTP('123456'));
+        await auth.signInWithPhoneNumber(phoneNumber,ab);
+//       print(await auth.sendOTP('123456'));
       } else {
-     await auth.signInWithPhoneNumber(phoneNumber);
-     print(await auth.sendOTP('123456'));
+      auth.signInWithPhoneNumber(phoneNumber,ab);
+//     print(await auth.sendOTP('123456'));
       }
     } catch (e) {
       updateWith(isLoading: false);
