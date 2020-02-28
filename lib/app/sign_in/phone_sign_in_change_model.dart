@@ -9,15 +9,15 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   PhoneSignInChangeModel({
     @required this.auth,
     this.phoneNumber = '',
-
-    this.password = '',
+    this.otp = '',
     this.formType = PhoneSignInFormType.sendOTP,
     this.isLoading = false,
     this.submitted = false,
+    this.verificationId = '',
   });
   final AuthBase auth;
   String phoneNumber;
-  String password;
+  String otp;
   String verificationId;
   PhoneSignInFormType formType;
   bool isLoading;
@@ -43,6 +43,9 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
     } catch (e) {
       updateWith(isLoading: false);
       rethrow;
+    }finally{
+      updateWith(isLoading: false);
+      formType = PhoneSignInFormType.submit;
     }
   }
 
@@ -54,17 +57,18 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
 
   String get secondaryButtonText {
     return formType == PhoneSignInFormType.sendOTP
-        ? 'Need an account? Register'
+        ? 'Want to Change Number'
         : 'Have an account? Sign in';
   }
 
   bool get canSubmit {
-    return emailValidator.isValid(phoneNumber) &&
-        !isLoading;
+//    return emailValidator.isValid(phoneNumber) &&
+//        !isLoading;
+  return true;
   }
 
   String get passwordErrorText {
-    bool showErrorText = submitted && !passwordValidator.isValid(password);
+    bool showErrorText = submitted && !passwordValidator.isValid(otp);
     return showErrorText ? invalidPasswordErrorText : null;
   }
 
@@ -79,7 +83,7 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
         : PhoneSignInFormType.sendOTP;
     updateWith(
       phoneNumber: '',
-      password: '',
+      otp: '',
       formType: formType,
       isLoading: false,
       submitted: false,
@@ -88,17 +92,17 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
 
   void updatePhoneNumber(String phoneNumber) => updateWith(phoneNumber: phoneNumber);
 
-  void updatePassword(String password) => updateWith(password: password);
+  void updatePassword(String otp) => updateWith(otp: otp);
 
   void updateWith({
     String phoneNumber,
-    String password,
+    String otp,
     PhoneSignInFormType formType,
     bool isLoading,
     bool submitted,
   }) {
     this.phoneNumber = phoneNumber ?? this.phoneNumber;
-    this.password = password ?? this.password;
+    this.otp = otp ?? this.otp;
     this.formType = formType ?? this.formType;
     this.isLoading = isLoading ?? this.isLoading;
     this.submitted = submitted ?? this.submitted;

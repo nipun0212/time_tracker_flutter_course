@@ -6,6 +6,8 @@ import 'package:time_tracker_flutter_course/common_widgets/form_submit_button.da
 import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
+import 'phone_sign_in_model.dart';
+
 class PhoneSignInFormChangeNotifier extends StatefulWidget {
   PhoneSignInFormChangeNotifier({@required this.model});
   final PhoneSignInChangeModel model;
@@ -51,7 +53,7 @@ class _PhoneSignInFormChangeNotifierState
     try {
       await model.submit();
 
-      Navigator.of(context).pop();
+//      Navigator.of(context).pop();
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
         title: 'Sign in failed',
@@ -78,7 +80,7 @@ class _PhoneSignInFormChangeNotifierState
       SizedBox(height: 8.0),
       _buildPhoneTextField(),
       SizedBox(height: 8.0),
-//      _buildPasswordTextField(),
+      _buildOTPextField(),
       SizedBox(height: 8.0),
       FormSubmitButton(
         text: model.primaryButtonText,
@@ -86,18 +88,28 @@ class _PhoneSignInFormChangeNotifierState
       ),
       SizedBox(height: 8.0),
       FlatButton(
-        child: Text(model.secondaryButtonText),
-        onPressed: !model.isLoading ? _toggleFormType : null,
+        child: Text('Want to Change Number'),
+        onPressed:_toggleFormType,
       ),
     ];
   }
-
-  TextField _buildPasswordTextField() {
+  List<Widget> _buildChildren1() {
+    return [
+      SizedBox(height: 8.0),
+      _buildPhoneTextField(),
+      SizedBox(height: 8.0),
+      FormSubmitButton(
+        text: model.primaryButtonText,
+        onPressed: model.canSubmit ? _submit : null,
+      ),
+    ];
+  }
+  TextField _buildOTPextField() {
     return TextField(
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
-        labelText: 'Password',
+        labelText: 'OTP',
         errorText: model.passwordErrorText,
         enabled: model.isLoading == false,
       ),
@@ -126,7 +138,8 @@ class _PhoneSignInFormChangeNotifierState
               keyboardType: TextInputType.phone,
               textInputAction: TextInputAction.next,
               onChanged: model.updatePhoneNumber,
-//      onEditingComplete: () => _emailEditingComplete(),
+              readOnly: model.formType==PhoneSignInFormType.submit?true:false,
+//              onEditingComplete: () => _emailEditingComplete(),
             ),
           ],
         );
@@ -134,13 +147,23 @@ class _PhoneSignInFormChangeNotifierState
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: _buildChildren(),
-      ),
-    );
+    if(model.formType==PhoneSignInFormType.sendOTP)
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+            children: _buildChildren1(),
+        ),
+      );
+    else
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: _buildChildren(),
+        ),
+      );
   }
 }
