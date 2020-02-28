@@ -52,8 +52,8 @@ class _PhoneSignInFormChangeNotifierState
   Future<void> _submit() async {
     try {
       await model.submit();
-
-//      Navigator.of(context).pop();
+      if (model.otp!='')
+        Navigator.of(context).pop();
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
         title: 'Sign in failed',

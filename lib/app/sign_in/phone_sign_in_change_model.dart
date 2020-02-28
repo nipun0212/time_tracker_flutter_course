@@ -27,7 +27,7 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
     print('me 2called');
     print('verificationId$verificationId');
     isLoading = true;
-    print(await auth.sendOTP('123456',verificationId));
+    this.verificationId = verificationId;
 
   }
   Future<void> submit() async {
@@ -37,7 +37,8 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
         await auth.signInWithPhoneNumber(phoneNumber,ab);
 //       print(await auth.sendOTP('123456'));
       } else {
-      auth.signInWithPhoneNumber(phoneNumber,ab);
+        print("This otp is $otp");
+        print(await auth.sendOTP(otp,verificationId));
 //     print(await auth.sendOTP('123456'));
       }
     } catch (e) {
