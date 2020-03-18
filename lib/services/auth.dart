@@ -5,16 +5,23 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/phone_sign_in_change_model.dart';
 
+import 'firestore_service.dart';
+
 class User {
   User({
     @required this.uid,
+    this.organizationId,
     this.photoUrl,
     this.displayName,
+    this.phoneNumber,
   });
 
   final String uid;
+  final String organizationId;
   final String photoUrl;
   final String displayName;
+  final String phoneNumber;
+
 }
 
 abstract class AuthBase {
@@ -32,7 +39,7 @@ abstract class AuthBase {
 
   Future<User> signInWithFacebook();
 
-  void signInWithPhoneNumber(String phoneNumber,Function(String verificationId, [int forceResendingToken]) ab);
+  void signInWithPhoneNumber(String phoneNumber,Function(String verificationId, [int forceResendingToken]) ab,Function(AuthException error) verificationFailed);
 
   Future<User> sendOTP(String otp,String verificationId);
 
@@ -45,14 +52,25 @@ class Auth implements AuthBase {
   final Function(PhoneCodeSent) cs;
   String verificationId;
 
-  User _userFromFirebase(FirebaseUser user) {
+
+  getUser(String uid) async{
+    print('madan');
+    await FirestoreService.instance.documentStream(path:'users/$uid',builder: (data, documentId)
+    {
+      print('nipun');
+      print(documentId);
+    });
+  }
+  User _userFromFirebase(FirebaseUser user){
     if (user == null) {
       return null;
     }
+    print("User is");
+//    getUser(user.uid);
     return User(
       uid: user.uid,
       displayName: user.displayName,
-      photoUrl: user.photoUrl,
+      photoUrl: user.photoUrl
     );
   }
 
@@ -81,12 +99,12 @@ class Auth implements AuthBase {
   }
 
   @override
-  void signInWithPhoneNumber(String phoneNumber,Function(String verificationId, [int forceResendingToken]) ab) async{
+  void signInWithPhoneNumber(String phoneNumber,Function(String verificationId, [int forceResendingToken]) ab,Function(AuthException error) verificationFailed) async{
     print('called');
      await _firebaseAuth.verifyPhoneNumber(
       phoneNumber: '+91' + phoneNumber,
       timeout: Duration(seconds: 60),
-      verificationCompleted: null,
+      verificationCompleted: (p)=>print('verif codm $p'),
       verificationFailed: verificationFailed,
       codeSent: ab,
       codeAutoRetrievalTimeout: null,
@@ -99,10 +117,10 @@ class Auth implements AuthBase {
     print('verificationId= $verificationId');
   }
 
-  void verificationFailed(AuthException error) {
-    print("Error Occured");
-    print(error.message);
-  }
+//  void verificationFailed(AuthException error) {
+//    print("Error Occured");
+//    print(error.message);
+//  }
 
   @override
   Future<User> sendOTP(String otp,verificationId) async {

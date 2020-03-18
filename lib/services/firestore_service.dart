@@ -43,6 +43,13 @@ class FirestoreService {
     });
   }
 
+
+  DocumentReference getDocument(
+      @required String path,
+      ){
+    return Firestore.instance.document(path);
+  }
+
   Stream<T> documentStream<T>({
     @required String path,
     @required T builder(Map<String, dynamic> data, String documentID),

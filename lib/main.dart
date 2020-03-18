@@ -17,7 +17,13 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.indigo,
         ),
-        home: LandingPage(),
+        initialRoute: '/',
+        routes: {
+    // When navigating to the "/" route, build the FirstScreen widget.
+    '/': (context) => LandingPage(),
+    // When navigating to the "/second" route, build the SecondScreen widget.
+        },
+//        home: LandingPage(),
       ),
     );
   }

@@ -15,6 +15,7 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
     this.submitted = false,
     this.verificationId = '',
   });
+
   final AuthBase auth;
   String phoneNumber;
   String otp;
@@ -23,37 +24,41 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   bool isLoading;
   bool submitted;
 
-  void ab(String verificationId, [int forceResendingToken])async {
+  void ab(String verificationId, [int forceResendingToken]) async {
     print('me 2called');
     print('verificationId$verificationId');
-    isLoading = true;
+    updateWith(isLoading: true);
     this.verificationId = verificationId;
-
+    formType = PhoneSignInFormType.submit;
+    updateWith(isLoading: false);
+  }
+  void verificationFailed(AuthException error) {
+    print("Error Occured");
+    print(error.message);
+    updateWith(isLoading: false);
   }
   Future<void> submit() async {
-    updateWith(submitted: true, isLoading: true);
     try {
       if (formType == PhoneSignInFormType.sendOTP) {
-        await auth.signInWithPhoneNumber(phoneNumber,ab);
+        updateWith(isLoading: true);
+        await auth.signInWithPhoneNumber(phoneNumber, ab,verificationFailed);
 //       print(await auth.sendOTP('123456'));
       } else {
         print("This otp is $otp");
-        print(await auth.sendOTP(otp,verificationId));
+        updateWith(submitted: true, isLoading: true);
+        await auth.sendOTP(otp, verificationId);
+
 //     print(await auth.sendOTP('123456'));
       }
     } catch (e) {
-      updateWith(isLoading: false);
+      print('Got Error');
+      updateWith(submitted:false,isLoading: false);
       rethrow;
-    }finally{
-      updateWith(isLoading: false);
-      formType = PhoneSignInFormType.submit;
     }
   }
 
   String get primaryButtonText {
-    return formType == PhoneSignInFormType.sendOTP
-        ? 'Send OTP'
-        : 'Submit';
+    return formType == PhoneSignInFormType.sendOTP ? 'Send OTP' : 'Submit';
   }
 
   String get secondaryButtonText {
@@ -65,7 +70,7 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   bool get canSubmit {
 //    return emailValidator.isValid(phoneNumber) &&
 //        !isLoading;
-  return true;
+    return true;
   }
 
   String get passwordErrorText {
@@ -91,9 +96,10 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
     );
   }
 
-  void updatePhoneNumber(String phoneNumber) => updateWith(phoneNumber: phoneNumber);
+  void updatePhoneNumber(String phoneNumber) =>
+      updateWith(phoneNumber: phoneNumber);
 
-  void updatePassword(String otp) => updateWith(otp: otp);
+  void updateOTP(String otp) => updateWith(otp: otp);
 
   void updateWith({
     String phoneNumber,

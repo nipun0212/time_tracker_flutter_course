@@ -4,9 +4,11 @@ import 'package:meta/meta.dart';
 import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/services/api_path.dart';
+import 'package:time_tracker_flutter_course/services/auth.dart';
 import 'package:time_tracker_flutter_course/services/firestore_service.dart';
 
 abstract class Database {
+  Stream<User> userDetails();
   Future<void> setJob(Job job);
   Future<void> deleteJob(Job job);
   Stream<List<Job>> jobsStream();
@@ -20,7 +22,15 @@ abstract class Database {
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 class FirestoreDatabase implements Database {
-  FirestoreDatabase({@required this.uid}) : assert(uid != null);
+  FirestoreDatabase({@required this.uid})
+  {
+//    _service.setData(path: APIPath.user(uid), data: {
+//      'id':uid,
+//      'phoneNumber':'8971819883'
+//
+//
+//    });
+}
   final String uid;
 
   final _service = FirestoreService.instance;
@@ -76,4 +86,18 @@ class FirestoreDatabase implements Database {
         builder: (data, documentID) => Entry.fromMap(data, documentID),
         sort: (lhs, rhs) => rhs.start.compareTo(lhs.start),
       );
+
+  @override
+  Stream<User> userDetails() {
+     return _service.documentStream(path: APIPath.user(uid), builder: (data, documentID){
+       print('data $data');
+       print('documentID $documentID');
+    User(
+    uid: documentID,
+    displayName: data['displayName'],
+    photoUrl: data['photoUrl'],
+    phoneNumber: data['phoneNumber']);
+     });
+    }
+
 }
