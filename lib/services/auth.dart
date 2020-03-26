@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/phone_sign_in_change_model.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 class User {
   User({
@@ -54,6 +55,7 @@ class Auth implements AuthBase {
       displayName: user.displayName,
       photoUrl: user.photoUrl,
     );
+
   }
 
   @override
@@ -64,6 +66,7 @@ class Auth implements AuthBase {
   @override
   Future<User> currentUser() async {
     final user = await _firebaseAuth.currentUser();
+
     return _userFromFirebase(user);
   }
 
@@ -112,6 +115,7 @@ class Auth implements AuthBase {
     );
     final authResult = await _firebaseAuth.signInWithCredential(credential);
     print(authResult);
+
     return _userFromFirebase(authResult.user);
   }
 

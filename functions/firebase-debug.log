@@ -1,0 +1,264 @@
+[debug] [2020-03-26T17:01:19.426Z] ----------------------------------------------------------------------
+[debug] [2020-03-26T17:01:19.427Z] Command:       /usr/local/lib/node_modules/firebase-tools/lib/bin/firebase.js /Users/i309795/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase emulators:start --only functions
+[debug] [2020-03-26T17:01:19.427Z] CLI Version:   7.16.1
+[debug] [2020-03-26T17:01:19.427Z] Platform:      darwin
+[debug] [2020-03-26T17:01:19.427Z] Node Version:  v12.13.1
+[debug] [2020-03-26T17:01:19.428Z] Time:          Thu Mar 26 2020 22:31:19 GMT+0530 (India Standard Time)
+[debug] [2020-03-26T17:01:19.428Z] ----------------------------------------------------------------------
+[debug] [2020-03-26T17:01:19.428Z] 
+[debug] [2020-03-26T17:01:19.436Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-26T17:01:19.436Z] > authorizing via signed-in user
+[info] i  emulators: Starting emulators: functions
+[debug] [2020-03-26T17:01:19.456Z] [hub] writing locator at /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/hub-timetracker-9d0b4.json
+[info] ✔  hub: emulator hub started at http://localhost:4400
+[warn] ⚠  Your requested "node" version "8" doesn't match your global version "12"
+[info] ✔  functions: functions emulator started at http://localhost:5001
+[info] i  functions: Watching "/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions" for Cloud Functions...
+[debug] [2020-03-26T17:01:19.731Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-26T17:01:19.732Z] [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-03-26T17:01:19.732Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-26T17:01:19.732Z] [worker-~diagnostic~-607c9c42-752a-4981-9434-32b46600a271]: Assigning socketPath: /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/fire_emu_9299.sock
+[debug] [2020-03-26T17:01:19.732Z] [worker-~diagnostic~-607c9c42-752a-4981-9434-32b46600a271]: BUSY
+[debug] [2020-03-26T17:01:20.003Z] [runtime-status] [9299] Functions runtime initialized. {"cwd":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions","node_version":"12.13.1"}
+[debug] [2020-03-26T17:01:20.004Z] [runtime-status] [9299] Disabled runtime features: undefined
+[debug] [2020-03-26T17:01:20.005Z] [runtime-status] [9299] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:01:20.006Z] [runtime-status] [9299] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:01:20.130Z] [runtime-status] [9299] Found google-gax at /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/google-gax/build/src/index.js
+[debug] [2020-03-26T17:01:20.130Z] [runtime-status] [9299] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"},{"name":"google-gax","status":"mocked"}]
+[debug] [2020-03-26T17:01:20.161Z] [runtime-status] [9299] Checked functions.config() {"config":{}}
+[debug] [2020-03-26T17:01:20.161Z] [runtime-status] [9299] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:01:20.162Z] [runtime-status] [9299] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:01:20.162Z] [runtime-status] [9299] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:01:20.194Z] [runtime-status] [9299] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2020-03-26T17:01:20.195Z] [runtime-status] [9299] initializeApp(DEFAULT) {"databaseURL":"https://timetracker-9d0b4.firebaseio.com","storageBucket":"timetracker-9d0b4.appspot.com","projectId":"timetracker-9d0b4"}
+[warn] ⚠  functions: The Cloud Firestore emulator is not running, so calls to Firestore will affect production.
+[debug] [2020-03-26T17:01:20.226Z] Unsupported trigger: {"eventTrigger":{"resource":"projects/timetracker-9d0b4","eventType":"providers/firebase.auth/eventTypes/user.create","service":"firebaseauth.googleapis.com"},"name":"sendWelcomeEmail","entryPoint":"sendWelcomeEmail"}
+[info] ✔  functions[helloWorld]: http function initialized (http://localhost:5001/timetracker-9d0b4/us-central1/helloWorld).
+[info] ✔  functions[addMessage]: http function initialized (http://localhost:5001/timetracker-9d0b4/us-central1/addMessage).
+[info] i  functions[sendWelcomeEmail]: function ignored because the auth emulator does not exist or is not running.
+[info] i  functions[organizationInitialize]: function ignored because the firestore emulator does not exist or is not running.
+[info] ✔  emulators: All emulators started, it is now safe to connect.
+[debug] [2020-03-26T17:01:20.227Z] [worker-~diagnostic~-607c9c42-752a-4981-9434-32b46600a271]: IDLE
+[debug] [2020-03-26T17:01:24.261Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-26T17:01:24.261Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-26T17:01:24.262Z] Accepted request GET /timetracker-9d0b4/us-central1/helloWorld --> helloWorld
+[debug] [2020-03-26T17:01:24.268Z] [worker-pool] addWorker(helloWorld)
+[debug] [2020-03-26T17:01:24.268Z] [worker-pool] Adding worker with key helloWorld, total=1
+[debug] [2020-03-26T17:01:24.268Z] [worker-pool] submitWork(triggerId=helloWorld)
+[debug] [2020-03-26T17:01:24.268Z] [worker-helloWorld-97799b90-dc70-461e-8c87-7f55c598bfe2]: Assigning socketPath: /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/fire_emu_9320.sock
+[debug] [2020-03-26T17:01:24.269Z] [worker-helloWorld-97799b90-dc70-461e-8c87-7f55c598bfe2]: BUSY
+[debug] [2020-03-26T17:01:24.572Z] [runtime-status] [9320] Functions runtime initialized. {"cwd":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions","node_version":"12.13.1"}
+[debug] [2020-03-26T17:01:24.573Z] [runtime-status] [9320] Disabled runtime features: undefined
+[debug] [2020-03-26T17:01:24.575Z] [runtime-status] [9320] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:01:24.576Z] [runtime-status] [9320] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:01:24.711Z] [runtime-status] [9320] Found google-gax at /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/google-gax/build/src/index.js
+[debug] [2020-03-26T17:01:24.711Z] [runtime-status] [9320] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"},{"name":"google-gax","status":"mocked"}]
+[debug] [2020-03-26T17:01:24.741Z] [runtime-status] [9320] Checked functions.config() {"config":{}}
+[debug] [2020-03-26T17:01:24.741Z] [runtime-status] [9320] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:01:24.742Z] [runtime-status] [9320] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:01:24.743Z] [runtime-status] [9320] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:01:24.771Z] [runtime-status] [9320] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2020-03-26T17:01:24.772Z] [runtime-status] [9320] initializeApp(DEFAULT) {"databaseURL":"https://timetracker-9d0b4.firebaseio.com","storageBucket":"timetracker-9d0b4.appspot.com","projectId":"timetracker-9d0b4"}
+[warn] ⚠  functions: The Cloud Firestore emulator is not running, so calls to Firestore will affect production.
+[debug] [2020-03-26T17:01:24.801Z] [runtime-status] [9320] Trigger "helloWorld" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "helloWorld"
+[debug] [2020-03-26T17:01:24.802Z] [runtime-status] [9320] triggerDefinition {"httpsTrigger":{},"name":"helloWorld","entryPoint":"helloWorld"}
+[debug] [2020-03-26T17:01:24.802Z] [runtime-status] [9320] Running helloWorld in mode HTTPS
+[debug] [2020-03-26T17:01:24.805Z] [runtime-status] [9320] Attempting to listen to socketPath: /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/fire_emu_9320.sock
+[debug] [2020-03-26T17:01:24.806Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-26T17:01:24.812Z] [runtime-status] [9320] Ephemeral server handling GET request
+[info] >  +918961819883
+[info] >  inside getUIDFromPhoneNumber
+[debug] [2020-03-26T17:01:24.856Z] [runtime-status] [9320] Ephemeral server survived.
+[warn] ⚠  functions: Error: Credential implementation provided to initializeApp() via the "credential" property failed to fetch a valid Google OAuth2 access token with the following error: "Error fetching access token: Error while making request: getaddrinfo ENOTFOUND metadata.google.internal. Error code: ENOTFOUND".
+    at FirebaseAppError.FirebaseError [as constructor] (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/utils/error.js:42:28)
+    at FirebaseAppError.PrefixedFirebaseError [as constructor] (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/utils/error.js:88:28)
+    at new FirebaseAppError (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/utils/error.js:123:28)
+    at /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/firebase-app.js:121:23
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+    at async Object.exports.getUIDFromPhoneNumber (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/lib/index.js:25:16)
+    at async /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/lib/index.js:45:15
+[warn] ⚠  Your function was killed because it raised an unhandled error.
+[debug] [2020-03-26T17:01:24.869Z] [worker-helloWorld-97799b90-dc70-461e-8c87-7f55c598bfe2]: exited
+[debug] [2020-03-26T17:01:24.870Z] [worker-helloWorld-97799b90-dc70-461e-8c87-7f55c598bfe2]: FINISHED
+[debug] [2020-03-26T17:01:24.870Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-26T17:03:03.930Z] File /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/src/index.ts changed, reloading triggers
+[debug] [2020-03-26T17:03:04.341Z] File /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/src/index.ts changed, reloading triggers
+[debug] [2020-03-26T17:03:04.549Z] File /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/src/index.ts changed, reloading triggers
+[debug] [2020-03-26T17:03:04.655Z] File /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/src/index.ts changed, reloading triggers
+[debug] [2020-03-26T17:03:05.660Z] [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2020-03-26T17:03:05.660Z] [worker-~diagnostic~-607c9c42-752a-4981-9434-32b46600a271]: FINISHING
+[debug] [2020-03-26T17:03:05.661Z] [worker-pool] Cleaned up workers for helloWorld: 1 --> 0
+[debug] [2020-03-26T17:03:05.666Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-26T17:03:05.666Z] [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2020-03-26T17:03:05.666Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-26T17:03:05.667Z] [worker-~diagnostic~-40e7aecd-7414-4825-9cc7-44c371c435cb]: Assigning socketPath: /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/fire_emu_9584.sock
+[debug] [2020-03-26T17:03:05.667Z] [worker-~diagnostic~-40e7aecd-7414-4825-9cc7-44c371c435cb]: BUSY
+[debug] [2020-03-26T17:03:05.670Z] [worker-~diagnostic~-607c9c42-752a-4981-9434-32b46600a271]: exited
+[debug] [2020-03-26T17:03:05.670Z] [worker-~diagnostic~-607c9c42-752a-4981-9434-32b46600a271]: FINISHED
+[debug] [2020-03-26T17:03:05.999Z] [runtime-status] [9584] Functions runtime initialized. {"cwd":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions","node_version":"12.13.1"}
+[debug] [2020-03-26T17:03:06.000Z] [runtime-status] [9584] Disabled runtime features: undefined
+[debug] [2020-03-26T17:03:06.002Z] [runtime-status] [9584] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:03:06.003Z] [runtime-status] [9584] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:06.218Z] [runtime-status] [9584] Found google-gax at /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/google-gax/build/src/index.js
+[debug] [2020-03-26T17:03:06.218Z] [runtime-status] [9584] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"},{"name":"google-gax","status":"mocked"}]
+[debug] [2020-03-26T17:03:06.268Z] [runtime-status] [9584] Checked functions.config() {"config":{}}
+[debug] [2020-03-26T17:03:06.269Z] [runtime-status] [9584] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:06.270Z] [runtime-status] [9584] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:03:06.270Z] [runtime-status] [9584] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:06.343Z] [runtime-status] [9584] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2020-03-26T17:03:06.345Z] [runtime-status] [9584] initializeApp(DEFAULT) {"databaseURL":"https://timetracker-9d0b4.firebaseio.com","storageBucket":"timetracker-9d0b4.appspot.com","projectId":"timetracker-9d0b4"}
+[warn] ⚠  functions: The Cloud Firestore emulator is not running, so calls to Firestore will affect production.
+[debug] [2020-03-26T17:03:06.390Z] [worker-~diagnostic~-40e7aecd-7414-4825-9cc7-44c371c435cb]: IDLE
+[debug] [2020-03-26T17:03:10.195Z] File /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/src/index.ts changed, reloading triggers
+[debug] [2020-03-26T17:03:11.195Z] [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2020-03-26T17:03:11.195Z] [worker-~diagnostic~-40e7aecd-7414-4825-9cc7-44c371c435cb]: FINISHING
+[debug] [2020-03-26T17:03:11.195Z] [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2020-03-26T17:03:11.199Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-26T17:03:11.199Z] [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2020-03-26T17:03:11.199Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-26T17:03:11.199Z] [worker-~diagnostic~-56f5e7d7-2a89-48f0-8a1d-4ecc3cf3c717]: Assigning socketPath: /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/fire_emu_9610.sock
+[debug] [2020-03-26T17:03:11.199Z] [worker-~diagnostic~-56f5e7d7-2a89-48f0-8a1d-4ecc3cf3c717]: BUSY
+[debug] [2020-03-26T17:03:11.203Z] [worker-~diagnostic~-40e7aecd-7414-4825-9cc7-44c371c435cb]: exited
+[debug] [2020-03-26T17:03:11.203Z] [worker-~diagnostic~-40e7aecd-7414-4825-9cc7-44c371c435cb]: FINISHED
+[debug] [2020-03-26T17:03:11.477Z] [runtime-status] [9610] Functions runtime initialized. {"cwd":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions","node_version":"12.13.1"}
+[debug] [2020-03-26T17:03:11.478Z] [runtime-status] [9610] Disabled runtime features: undefined
+[debug] [2020-03-26T17:03:11.479Z] [runtime-status] [9610] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:03:11.480Z] [runtime-status] [9610] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:11.597Z] [runtime-status] [9610] Found google-gax at /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/google-gax/build/src/index.js
+[debug] [2020-03-26T17:03:11.598Z] [runtime-status] [9610] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"},{"name":"google-gax","status":"mocked"}]
+[debug] [2020-03-26T17:03:11.623Z] [runtime-status] [9610] Checked functions.config() {"config":{}}
+[debug] [2020-03-26T17:03:11.623Z] [runtime-status] [9610] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:11.624Z] [runtime-status] [9610] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:03:11.624Z] [runtime-status] [9610] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:11.653Z] [runtime-status] [9610] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2020-03-26T17:03:11.654Z] [runtime-status] [9610] initializeApp(DEFAULT) {"databaseURL":"https://timetracker-9d0b4.firebaseio.com","storageBucket":"timetracker-9d0b4.appspot.com","projectId":"timetracker-9d0b4"}
+[warn] ⚠  functions: The Cloud Firestore emulator is not running, so calls to Firestore will affect production.
+[debug] [2020-03-26T17:03:11.679Z] [worker-~diagnostic~-56f5e7d7-2a89-48f0-8a1d-4ecc3cf3c717]: IDLE
+[debug] [2020-03-26T17:03:16.016Z] File /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/lib/index.js changed, reloading triggers
+[debug] [2020-03-26T17:03:16.017Z] File /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/lib/index.js.map changed, reloading triggers
+[debug] [2020-03-26T17:03:16.017Z] File /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/lib/model/organization.js.map changed, reloading triggers
+[debug] [2020-03-26T17:03:16.017Z] File /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/lib/model/organization.js changed, reloading triggers
+[debug] [2020-03-26T17:03:17.020Z] [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2020-03-26T17:03:17.021Z] [worker-~diagnostic~-56f5e7d7-2a89-48f0-8a1d-4ecc3cf3c717]: FINISHING
+[debug] [2020-03-26T17:03:17.021Z] [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2020-03-26T17:03:17.024Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-26T17:03:17.024Z] [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2020-03-26T17:03:17.024Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-26T17:03:17.025Z] [worker-~diagnostic~-709711f6-7c7f-4ee4-b942-553aeea70370]: Assigning socketPath: /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/fire_emu_9634.sock
+[debug] [2020-03-26T17:03:17.025Z] [worker-~diagnostic~-709711f6-7c7f-4ee4-b942-553aeea70370]: BUSY
+[debug] [2020-03-26T17:03:17.030Z] [worker-~diagnostic~-56f5e7d7-2a89-48f0-8a1d-4ecc3cf3c717]: exited
+[debug] [2020-03-26T17:03:17.030Z] [worker-~diagnostic~-56f5e7d7-2a89-48f0-8a1d-4ecc3cf3c717]: FINISHED
+[debug] [2020-03-26T17:03:17.316Z] [runtime-status] [9634] Functions runtime initialized. {"cwd":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions","node_version":"12.13.1"}
+[debug] [2020-03-26T17:03:17.317Z] [runtime-status] [9634] Disabled runtime features: undefined
+[debug] [2020-03-26T17:03:17.319Z] [runtime-status] [9634] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:03:17.320Z] [runtime-status] [9634] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:17.472Z] [runtime-status] [9634] Found google-gax at /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/google-gax/build/src/index.js
+[debug] [2020-03-26T17:03:17.472Z] [runtime-status] [9634] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"},{"name":"google-gax","status":"mocked"}]
+[debug] [2020-03-26T17:03:17.506Z] [runtime-status] [9634] Checked functions.config() {"config":{}}
+[debug] [2020-03-26T17:03:17.507Z] [runtime-status] [9634] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:17.508Z] [runtime-status] [9634] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:03:17.508Z] [runtime-status] [9634] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:17.543Z] [runtime-status] [9634] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2020-03-26T17:03:17.597Z] [runtime-status] [9634] initializeApp(DEFAULT) {"databaseURL":"https://timetracker-9d0b4.firebaseio.com","storageBucket":"timetracker-9d0b4.appspot.com","projectId":"timetracker-9d0b4","credential":{"implicit":false,"projectId":"timetracker-9d0b4","privateKey":"-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDwhHl+UvBaz2dx\nmN8MGRK5a42CrVLMpmax9W+MaN+ni3RQMQk7jAjcUCWtz5b8dvZI3mwtk8laGAqZ\ny5yppp8ezwG+1OWM06EjF4NigdFQUfAiQ7VdI8MedNj3cTXo4Riug5RAQnMiZ6eQ\nBLSVInt1hub54jW1UM7B4CkpZAOttyZjS2MOjvO4rUN27VdfWfYjd337WLrR+3mb\n99uQxcuZmbs/ynt01FoOlrewGRdAiRgzhO0xyQ4Q09ISLtvvLQFwdOQQDB0ZGPRK\nnPiFnevtiCw2E9gZ9JZUPK6hjbQ5twKHq3ZbocgpFfwMwjayyzG9GqIN8JH/DPAy\n+nxCWDWPAgMBAAECggEAZ3FqeXC9bCkYwewwPhlIitPdnG7kFh2ZPH+lVrvCOWKK\nh3TXljM/mlWkJvGJ7BJUEXoMB7wwlN2TLZs7SWHevNbmVsdk5OEeRCP4P3U663Ma\nNvps9d6MLDywFhgsSfkJ7wCrUcnij9EJ6bCEZEHc3GrFS4LFe7KCAjNhMKqRxHOU\nDs6D3GdeSnPwuA88cMqChgtjT6mSDmdqTe+9QcXcQihC264u6DsDZt6P+Nprd9iU\ngOeBGxT+vv5DlF+F1BXJKmC60vm0wmP/S1A2i/jaPERYQQB2dyabWfIrO1DUdtt2\n9p4NsEhv6W3MFC4bi31wu+jEduDkuHTMIHh4kHLbSQKBgQD4V81SXBjTmSsGinQz\neIPiPjNEuT261xFWshg+svHe48VGFxn+PYrTKr3EFDxMH+j4U2vMHYGuUE6NwlJT\nzU0YRkD3uDbmen4YeyH7oEyV6RaXNx3NbZ8RMXxwEcUJQzjJQP4BJJwyDJoXGkqs\ncfUhpA/Xe0/vIV9Zk0AsL3T5uQKBgQD37uexCtukTgtvQO41FKu7nnq4Gh8W7CNK\nL+JtMW4OfMdkfSHeNRE6i3VPeSDCJtLh9ggwxdMOyr4gVeHTMB+z+iBUqnDzdrQq\nOrPCKbobtkjhFI1tQt1OT0EcxoEo6362Fcz5tbzgMVlKW0DFeClZxCdiO7cRmEw5\nhdLxn1sthwKBgQCP6nn/H4X3ocywRq4eYdmz063sRplCXH4cyqqIMzU9oKti+eJD\nVrDLvPop1jw3NUrSFa3jpLnRJZLQTetdyxzBU3000VlnaVcHotvHsVaQjXpc+UDZ\nGozS7uWZIIMZ4g3Xe0V3rhqiWnE1sDPUCVowO54+lqR1BNb31wCaWookaQKBgQDP\nrlZz7cV4h0t6wOgInK0R9zmS14atW9ZfwWao0tv+1LTtTwg8qzUoVkNI9AzltUG2\nt7G6sSsPW/MRAP+uOMSFrQLCCReeSRO3v/5tqShVKEc6C05AdN8ORsMjCICOt10n\nx3EwxvRU0+GYsIG8J+BzaiUXWzAJVAqdsKS3cyYcJwKBgQCfXSRuMHvXLgwz0FvJ\n/EU9Q4Aht9TGHf/SLnGs8+ta32BSoTXbyyis3MZ9Y7SjfOlwNO8v4WYZtaROKQFx\nnmzv7OaK/Z4Dci5OY8GqqmtAzPldPTNgnFG+lC067aMqmu4TdfHhM97w+IUbvsTG\nKV0tE55hT1bzzXdCjnDqNK1MCg==\n-----END PRIVATE KEY-----\n","clientEmail":"firebase-adminsdk-1g2by@timetracker-9d0b4.iam.gserviceaccount.com","httpClient":{"retry":{"maxRetries":4,"statusCodes":[503],"ioErrorCodes":["ECONNRESET","ETIMEDOUT"],"backOffFactor":0.5,"maxDelayInMillis":60000}}}}
+[debug] [2020-03-26T17:03:17.630Z] [worker-~diagnostic~-709711f6-7c7f-4ee4-b942-553aeea70370]: IDLE
+[debug] [2020-03-26T17:03:20.337Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-26T17:03:20.337Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-26T17:03:20.337Z] Accepted request GET /timetracker-9d0b4/us-central1/helloWorld --> helloWorld
+[debug] [2020-03-26T17:03:20.338Z] [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2020-03-26T17:03:20.341Z] [worker-pool] addWorker(helloWorld)
+[debug] [2020-03-26T17:03:20.341Z] [worker-pool] Adding worker with key helloWorld, total=1
+[debug] [2020-03-26T17:03:20.341Z] [worker-pool] submitWork(triggerId=helloWorld)
+[debug] [2020-03-26T17:03:20.341Z] [worker-helloWorld-517c9919-0396-44ba-b23c-1f12bcc769a6]: Assigning socketPath: /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/fire_emu_9646.sock
+[debug] [2020-03-26T17:03:20.341Z] [worker-helloWorld-517c9919-0396-44ba-b23c-1f12bcc769a6]: BUSY
+[debug] [2020-03-26T17:03:20.610Z] [runtime-status] [9646] Functions runtime initialized. {"cwd":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions","node_version":"12.13.1"}
+[debug] [2020-03-26T17:03:20.611Z] [runtime-status] [9646] Disabled runtime features: undefined
+[debug] [2020-03-26T17:03:20.612Z] [runtime-status] [9646] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:03:20.613Z] [runtime-status] [9646] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:20.743Z] [runtime-status] [9646] Found google-gax at /Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/google-gax/build/src/index.js
+[debug] [2020-03-26T17:03:20.743Z] [runtime-status] [9646] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"},{"name":"google-gax","status":"mocked"}]
+[debug] [2020-03-26T17:03:20.774Z] [runtime-status] [9646] Checked functions.config() {"config":{}}
+[debug] [2020-03-26T17:03:20.774Z] [runtime-status] [9646] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:20.775Z] [runtime-status] [9646] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-26T17:03:20.775Z] [runtime-status] [9646] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-26T17:03:20.807Z] [runtime-status] [9646] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2020-03-26T17:03:20.839Z] [runtime-status] [9646] initializeApp(DEFAULT) {"databaseURL":"https://timetracker-9d0b4.firebaseio.com","storageBucket":"timetracker-9d0b4.appspot.com","projectId":"timetracker-9d0b4","credential":{"implicit":false,"projectId":"timetracker-9d0b4","privateKey":"-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDwhHl+UvBaz2dx\nmN8MGRK5a42CrVLMpmax9W+MaN+ni3RQMQk7jAjcUCWtz5b8dvZI3mwtk8laGAqZ\ny5yppp8ezwG+1OWM06EjF4NigdFQUfAiQ7VdI8MedNj3cTXo4Riug5RAQnMiZ6eQ\nBLSVInt1hub54jW1UM7B4CkpZAOttyZjS2MOjvO4rUN27VdfWfYjd337WLrR+3mb\n99uQxcuZmbs/ynt01FoOlrewGRdAiRgzhO0xyQ4Q09ISLtvvLQFwdOQQDB0ZGPRK\nnPiFnevtiCw2E9gZ9JZUPK6hjbQ5twKHq3ZbocgpFfwMwjayyzG9GqIN8JH/DPAy\n+nxCWDWPAgMBAAECggEAZ3FqeXC9bCkYwewwPhlIitPdnG7kFh2ZPH+lVrvCOWKK\nh3TXljM/mlWkJvGJ7BJUEXoMB7wwlN2TLZs7SWHevNbmVsdk5OEeRCP4P3U663Ma\nNvps9d6MLDywFhgsSfkJ7wCrUcnij9EJ6bCEZEHc3GrFS4LFe7KCAjNhMKqRxHOU\nDs6D3GdeSnPwuA88cMqChgtjT6mSDmdqTe+9QcXcQihC264u6DsDZt6P+Nprd9iU\ngOeBGxT+vv5DlF+F1BXJKmC60vm0wmP/S1A2i/jaPERYQQB2dyabWfIrO1DUdtt2\n9p4NsEhv6W3MFC4bi31wu+jEduDkuHTMIHh4kHLbSQKBgQD4V81SXBjTmSsGinQz\neIPiPjNEuT261xFWshg+svHe48VGFxn+PYrTKr3EFDxMH+j4U2vMHYGuUE6NwlJT\nzU0YRkD3uDbmen4YeyH7oEyV6RaXNx3NbZ8RMXxwEcUJQzjJQP4BJJwyDJoXGkqs\ncfUhpA/Xe0/vIV9Zk0AsL3T5uQKBgQD37uexCtukTgtvQO41FKu7nnq4Gh8W7CNK\nL+JtMW4OfMdkfSHeNRE6i3VPeSDCJtLh9ggwxdMOyr4gVeHTMB+z+iBUqnDzdrQq\nOrPCKbobtkjhFI1tQt1OT0EcxoEo6362Fcz5tbzgMVlKW0DFeClZxCdiO7cRmEw5\nhdLxn1sthwKBgQCP6nn/H4X3ocywRq4eYdmz063sRplCXH4cyqqIMzU9oKti+eJD\nVrDLvPop1jw3NUrSFa3jpLnRJZLQTetdyxzBU3000VlnaVcHotvHsVaQjXpc+UDZ\nGozS7uWZIIMZ4g3Xe0V3rhqiWnE1sDPUCVowO54+lqR1BNb31wCaWookaQKBgQDP\nrlZz7cV4h0t6wOgInK0R9zmS14atW9ZfwWao0tv+1LTtTwg8qzUoVkNI9AzltUG2\nt7G6sSsPW/MRAP+uOMSFrQLCCReeSRO3v/5tqShVKEc6C05AdN8ORsMjCICOt10n\nx3EwxvRU0+GYsIG8J+BzaiUXWzAJVAqdsKS3cyYcJwKBgQCfXSRuMHvXLgwz0FvJ\n/EU9Q4Aht9TGHf/SLnGs8+ta32BSoTXbyyis3MZ9Y7SjfOlwNO8v4WYZtaROKQFx\nnmzv7OaK/Z4Dci5OY8GqqmtAzPldPTNgnFG+lC067aMqmu4TdfHhM97w+IUbvsTG\nKV0tE55hT1bzzXdCjnDqNK1MCg==\n-----END PRIVATE KEY-----\n","clientEmail":"firebase-adminsdk-1g2by@timetracker-9d0b4.iam.gserviceaccount.com","httpClient":{"retry":{"maxRetries":4,"statusCodes":[503],"ioErrorCodes":["ECONNRESET","ETIMEDOUT"],"backOffFactor":0.5,"maxDelayInMillis":60000}}}}
+[debug] [2020-03-26T17:03:20.873Z] [runtime-status] [9646] Trigger "helloWorld" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "helloWorld"
+[debug] [2020-03-26T17:03:20.873Z] [runtime-status] [9646] triggerDefinition {"httpsTrigger":{},"name":"helloWorld","entryPoint":"helloWorld"}
+[debug] [2020-03-26T17:03:20.873Z] [runtime-status] [9646] Running helloWorld in mode HTTPS
+[debug] [2020-03-26T17:03:20.877Z] [runtime-status] [9646] Attempting to listen to socketPath: /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/fire_emu_9646.sock
+[debug] [2020-03-26T17:03:20.880Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-26T17:03:20.885Z] [runtime-status] [9646] Ephemeral server handling GET request
+[info] >  +918961819883
+[info] >  inside getUIDFromPhoneNumber
+[info] >  UID from function is pIeEljKhpdUSjGRs12W9RrzFeDA3
+[info] >  change.after.id
+[info] >  inside getUIDFromPhoneNumber
+[info] >  Promise { <pending> }
+[info] >  { Y: 'nipun' }
+[info] >  nipun
+[warn] ⚠  functions: The Cloud Firestore emulator is not running, so calls to Firestore will affect production.
+[info] >  organizations/uofPDOfPCBsc99yMwbXn/private/roles
+[info] >  private
+[info] >  (node:9646) UnhandledPromiseRejectionWarning: Error: The phone number must be a non-empty E.164 standard compliant identifier string.
+[info] >      at FirebaseAuthError.FirebaseError [as constructor] (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/utils/error.js:42:28)
+[info] >      at FirebaseAuthError.PrefixedFirebaseError [as constructor] (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/utils/error.js:88:28)
+[info] >      at new FirebaseAuthError (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/utils/error.js:147:16)
+[info] >      at AuthRequestHandler.AbstractAuthRequestHandler.getAccountInfoByPhoneNumber (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/auth/auth-api-request.js:761:35)
+[info] >      at Auth.BaseAuth.getUserByPhoneNumber (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/auth/auth.js:156:40)
+[info] >      at Object.exports.getUIDFromPhoneNumber (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/lib/index.js:45:35)
+[info] >      at processTicksAndRejections (internal/process/task_queues.js:93:5)
+[info] >  (node:9646) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 3)
+[info] >  (node:9646) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+[info] i  functions: Finished "helloWorld" in ~2s
+[debug] [2020-03-26T17:03:23.431Z] [worker-helloWorld-517c9919-0396-44ba-b23c-1f12bcc769a6]: IDLE
+[debug] [2020-03-26T17:03:23.431Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[warn] ⚠  Google API requested!
+   - URL: "https://www.googleapis.com/oauth2/v4/token"
+   - Be careful, this may be a production service.
+[info] >  x
+[info] >  {"name":"shiva5","ownerPhoneNumber":"+918971819883","address":""}
+[info] >  y
+[info] >  undefined
+[debug] [2020-03-26T17:03:25.014Z] [runtime-status] [9646] Ephemeral server survived.
+[debug] [2020-03-26T17:06:58.271Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-26T17:06:58.271Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-26T17:06:58.271Z] Accepted request GET /timetracker-9d0b4/us-central1/helloWorld --> helloWorld
+[debug] [2020-03-26T17:06:58.272Z] [worker-pool] submitWork(triggerId=helloWorld)
+[debug] [2020-03-26T17:06:58.272Z] [worker-helloWorld-517c9919-0396-44ba-b23c-1f12bcc769a6]: Assigning socketPath: /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/fire_emu_9646.sock
+[debug] [2020-03-26T17:06:58.272Z] [worker-helloWorld-517c9919-0396-44ba-b23c-1f12bcc769a6]: BUSY
+[debug] [2020-03-26T17:06:58.273Z] [runtime-status] [9646] Trigger "helloWorld" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "helloWorld"
+[debug] [2020-03-26T17:06:58.274Z] [runtime-status] [9646] triggerDefinition {"httpsTrigger":{},"name":"helloWorld","entryPoint":"helloWorld"}
+[debug] [2020-03-26T17:06:58.274Z] [runtime-status] [9646] Running helloWorld in mode HTTPS
+[debug] [2020-03-26T17:06:58.276Z] [runtime-status] [9646] Attempting to listen to socketPath: /var/folders/5p/_czfkypd657bcsxdyjft0vjw0000gn/T/fire_emu_9646.sock
+[debug] [2020-03-26T17:06:58.277Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-26T17:06:58.279Z] [runtime-status] [9646] Ephemeral server handling GET request
+[info] >  +918961819883
+[info] >  inside getUIDFromPhoneNumber
+[info] >  UID from function is pIeEljKhpdUSjGRs12W9RrzFeDA3
+[info] >  change.after.id
+[info] >  inside getUIDFromPhoneNumber
+[info] >  Promise { <pending> }
+[info] >  { Y: 'nipun' }
+[info] >  nipun
+[info] >  organizations/uofPDOfPCBsc99yMwbXn/private/roles
+[info] >  private
+[info] >  (node:9646) UnhandledPromiseRejectionWarning: Error: The phone number must be a non-empty E.164 standard compliant identifier string.
+[info] >      at FirebaseAuthError.FirebaseError [as constructor] (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/utils/error.js:42:28)
+[info] >      at FirebaseAuthError.PrefixedFirebaseError [as constructor] (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/utils/error.js:88:28)
+[info] >      at new FirebaseAuthError (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/utils/error.js:147:16)
+[info] >      at AuthRequestHandler.AbstractAuthRequestHandler.getAccountInfoByPhoneNumber (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/auth/auth-api-request.js:761:35)
+[info] >      at Auth.BaseAuth.getUserByPhoneNumber (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/node_modules/firebase-admin/lib/auth/auth.js:156:40)
+[info] >      at Object.exports.getUIDFromPhoneNumber (/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/lib/index.js:45:35)
+[info] >      at processTicksAndRejections (internal/process/task_queues.js:93:5)
+[info] >  (node:9646) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 6)
+[info] i  functions: Finished "helloWorld" in ~1s
+[debug] [2020-03-26T17:06:59.266Z] [worker-helloWorld-517c9919-0396-44ba-b23c-1f12bcc769a6]: IDLE
+[debug] [2020-03-26T17:06:59.266Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[info] >  x
+[info] >  {"ownerPhoneNumber":"+918971819883","address":"","name":"shiva5"}
+[info] >  y
+[info] >  undefined
+[debug] [2020-03-26T17:07:02.141Z] [runtime-status] [9646] Ephemeral server survived.
