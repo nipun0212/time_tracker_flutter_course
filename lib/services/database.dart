@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
@@ -10,12 +11,23 @@ import 'package:time_tracker_flutter_course/services/firestore_service.dart';
 abstract class Database {
   Stream<User> userDetails();
   Future<void> setJob(Job job);
+
+  Future<void> setOrganization(Organization organization, bool isUpdate);
+
   Future<void> deleteJob(Job job);
+
+  Future<void> deleteOrganization(Organization organization);
+
   Stream<List<Job>> jobsStream();
+
+  Stream<List<Organization>> organizationsStream(cq(Query query));
+
   Stream<Job> jobStream({@required String jobId});
 
   Future<void> setEntry(Entry entry);
+
   Future<void> deleteEntry(Entry entry);
+
   Stream<List<Entry>> entriesStream({Job job});
 }
 
@@ -42,6 +54,20 @@ class FirestoreDatabase implements Database {
       );
 
   @override
+  Future<void> setOrganization(Organization organization, bool isUpdate) async {
+    if (isUpdate)
+      await _service.setData(
+        path: APIPath.organization(organization.id),
+        data: organization.toMap(),
+      );
+    else
+      await _service.setData1(
+        path: APIPath.organizations(),
+        data: organization.toMap(),
+      );
+  }
+
+  @override
   Future<void> deleteJob(Job job) async {
     // delete where entry.jobId == job.jobId
     final allEntries = await entriesStream(job: job).first;
@@ -55,6 +81,11 @@ class FirestoreDatabase implements Database {
   }
 
   @override
+  Future<void> deleteOrganization(Organization organization) async {
+    await _service.deleteData(path: APIPath.organization(organization.id));
+  }
+
+  @override
   Stream<Job> jobStream({@required String jobId}) => _service.documentStream(
         path: APIPath.job(uid, jobId),
         builder: (data, documentId) => Job.fromMap(data, documentId),
@@ -65,6 +96,19 @@ class FirestoreDatabase implements Database {
         path: APIPath.jobs(uid),
         builder: (data, documentId) => Job.fromMap(data, documentId),
       );
+
+  @override
+  Stream<List<Organization>> organizationsStream(cq(Query query)) => _service.collectionStream(
+      path: APIPath.organizations(),
+      builder: (data, documentId) => Organization.fromMap(data, documentId),
+      queryBuilder: cq!=null?(query)=>cq(query):null
+  );
+  Stream<List<Bill>> billsStream(@required String organizationId) {
+    return _service.collectionStream(
+      path: APIPath.bills(organizationId),
+      builder: (data, documentId) => Bill.fromMap(data, documentId),
+    );
+  }
 
   @override
   Future<void> setEntry(Entry entry) async => await _service.setData(

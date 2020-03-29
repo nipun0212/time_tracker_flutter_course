@@ -11,3 +11,6 @@ packages
 ios/Flutter/flutter_export_environment.sh
 ios/Runner/GoogleService-Info.plist
 android/app/google-services.json
+*.stamp
+*.d
+.dart_tool/flutter_build/30348036cae3958421b1f40adf36865d/.filecache

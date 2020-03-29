@@ -26,12 +26,19 @@ class FirestoreService {
     Query queryBuilder(Query query),
     int sort(T lhs, T rhs),
   }) {
+//    Firestore.instance.settings(host: "10.0.2.2:8080", sslEnabled: false);
+    print(path);
     Query query = Firestore.instance.collection(path);
+    print("queryBuilder");
+    print(queryBuilder);
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
+    print('query is $query');
     final Stream<QuerySnapshot> snapshots = query.snapshots();
+    print(snapshots.length);
     return snapshots.map((snapshot) {
+//      print(snapshot?.documents?.first?.data);
       final result = snapshot.documents
           .map((snapshot) => builder(snapshot.data, snapshot.documentID))
           .where((value) => value != null)
