@@ -147,20 +147,6 @@ exports.organizationInitialize = functions.firestore
     const ownerCurrentPhoneNumber = change.after.data()?.ownerPhoneNumber;
     const superAdminUID = await _getSuperAdminUID();
     const organizationID = change.after.id;
-    console.log("change.after.id");
-    console.log(change.after.id);
-    console.log("change.before.id");
-    console.log(change.before.id);
-    console.log("superAdminUID");
-    console.log(superAdminUID);
-    console.log("context.auth?.uid");
-    console.log(context.auth?.uid);
-    console.log("context.authType");
-    console.log(context.authType);
-    console.log("ownerPhoneNumberBefore");
-    console.log(ownerPreviousPhoneNumber);
-    console.log("ownerPhoneNumberAfter");
-    console.log(ownerCurrentPhoneNumber);
 
     if (ownerPreviousPhoneNumber === ownerCurrentPhoneNumber) {
       console.log("There is no change");
@@ -212,3 +198,17 @@ exports.addMessage = functions.https.onCall((data, context) => {
 
 
 
+// console.log("change.after.id");
+// console.log(change.after.id);
+// console.log("change.before.id");
+// console.log(change.before.id);
+// console.log("superAdminUID");
+// console.log(superAdminUID);
+// console.log("context.auth?.uid");
+// console.log(context.auth?.uid);
+// console.log("context.authType");
+// console.log(context.authType);
+// console.log("ownerPhoneNumberBefore");
+// console.log(ownerPreviousPhoneNumber);
+// console.log("ownerPhoneNumberAfter");
+// console.log(ownerCurrentPhoneNumber);
