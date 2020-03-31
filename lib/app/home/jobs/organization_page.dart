@@ -22,7 +22,7 @@ class OrganizationsPage extends StatelessWidget {
 
   Future<void> _delete(BuildContext context, Organization organization) async {
     try {
-      final database = Provider.of<Database>(context);
+      final database = Provider.of<Database>(context, listen: false);
       await database.deleteOrganization(organization);
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
@@ -42,7 +42,7 @@ class OrganizationsPage extends StatelessWidget {
             icon: Icon(Icons.add, color: Colors.white),
             onPressed: () => EditOrganizationPage.show(
               context,
-              database: Provider.of<Database>(context),
+              database: Provider.of<Database>(context, listen: false),
             ),
           ),
         ],
@@ -52,9 +52,9 @@ class OrganizationsPage extends StatelessWidget {
   }
 
   Widget _buildContents(BuildContext context) {
-    final database = Provider.of<Database>(context);
+    final database = Provider.of<Database>(context, listen: false);
     return StreamBuilder<List<Organization>>(
-      stream: database.organizationsStream(),
+      stream: database.organizationsStream(null),
       builder: (context, snapshot) {
         return ListItemsBuilder<Organization>(
           snapshot: snapshot,
@@ -65,7 +65,7 @@ class OrganizationsPage extends StatelessWidget {
             onDismissed: (direction) => _delete(context, organization),
             child: OrganizationListTile(
                 organization: organization,
-                onTap: () =>EditOrganizationPage.show(context,database: Provider.of<Database>(context),organization: organization)
+                onTap: () =>EditOrganizationPage.show(context,database: Provider.of<Database>(context, listen: false),organization: organization)
 
 
 //                async{

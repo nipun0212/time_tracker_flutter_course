@@ -6,19 +6,21 @@ import 'package:time_tracker_flutter_course/common_widgets/platform_exception_al
 import 'package:time_tracker_flutter_course/services/database.dart';
 
 class EditOrganizationPage extends StatefulWidget {
-  const EditOrganizationPage({Key key, @required this.database, this.organization})
+  const EditOrganizationPage(
+      {Key key, @required this.database, this.organization})
       : super(key: key);
   final Database database;
   final Organization organization;
 
   static Future<void> show(
-      BuildContext context, {
-        Database database,
-        Organization organization,
-      }) async {
+    BuildContext context, {
+    Database database,
+    Organization organization,
+  }) async {
     await Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
-        builder: (context) => EditOrganizationPage(database: database, organization: organization),
+        builder: (context) => EditOrganizationPage(
+            database: database, organization: organization),
         fullscreenDialog: true,
       ),
     );
@@ -30,10 +32,12 @@ class EditOrganizationPage extends StatefulWidget {
 
 class _EditOrganizationPageState extends State<EditOrganizationPage> {
   final _formKey = GlobalKey<FormState>();
-
+  String phoneNumberVaridationErrorText = 'Invalid Phone Number';
+  bool isLoading = false;
   String _name;
   String _address;
   String _ownerPhoneNumber;
+  int _otp;
 
   @override
   void initState() {
@@ -56,25 +60,61 @@ class _EditOrganizationPageState extends State<EditOrganizationPage> {
     return false;
   }
 
-  Future<void> _submit() async {
-          _validateAndSaveForm();
-          final id = widget.organization?.id;
-           Organization organization;
-           print('name is $_name');
-          if(id!=null) {
-            organization = Organization(id: id,
-                name: _name,
-                address: _address,
-                ownerPhoneNumber: _ownerPhoneNumber);
-            await widget.database.setOrganization(organization,true);
-          } else {
-            organization = Organization(name: _name,
-                address: _address,
-                ownerPhoneNumber: _ownerPhoneNumber);
-            await widget.database.setOrganization(organization,false);
-          }print(organization);
+  Future<bool> isPhoneNumberUnique(String phoneNumber) async {
+    phoneNumber = '+91' + phoneNumber;
+    bool result = true;
+    List<Organization> organizations = await widget.database
+        .organizationsStream(
+            (q) => q.where('ownerPhoneNumber', isEqualTo: phoneNumber).limit(1))
+        .first;
+    if (organizations.length > 0) result = false;
+    return result;
+  }
 
-          Navigator.of(context).pop();
+  void setPhoneNumberErrorText(String phoneNumber) async {
+    setState(() {
+      isLoading = true;
+    });
+//    await Future.delayed(Duration(seconds: 5));
+    if (phoneNumber.length != 10) {
+      phoneNumberVaridationErrorText = 'Invalid Phone Number';
+    } else {
+      bool unique = await isPhoneNumberUnique(phoneNumber);
+      if (unique)
+        phoneNumberVaridationErrorText = '';
+      else
+        phoneNumberVaridationErrorText = 'Phone Number Already Registered!';
+    }
+    _validateAndSaveForm();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<void> _submit() async {
+    if (_validateAndSaveForm()) {
+      final id = widget.organization?.id;
+      _ownerPhoneNumber = '+91' + _ownerPhoneNumber;
+      Organization organization;
+      print('name is $_name');
+      if (id != null) {
+        organization = Organization(
+            id: id,
+            name: _name,
+            address: _address,
+            ownerPhoneNumber: _ownerPhoneNumber);
+        await widget.database.setOrganization(organization, true);
+      } else {
+        organization = Organization(
+            name: _name,
+            address: _address,
+            ownerPhoneNumber: _ownerPhoneNumber);
+        await widget.database.setOrganization(organization, false);
+      }
+      print(organization);
+
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -87,9 +127,12 @@ class _EditOrganizationPageState extends State<EditOrganizationPage> {
           FlatButton(
             child: Text(
               'Save',
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: TextStyle(
+                fontSize: 18,
+                color: isLoading ? Colors.black54 : Colors.white,
+              ),
             ),
-            onPressed: _submit,
+            onPressed: isLoading ? null : _submit,
           ),
         ],
       ),
@@ -124,6 +167,50 @@ class _EditOrganizationPageState extends State<EditOrganizationPage> {
 
   List<Widget> _buildFormChildren() {
     return [
+//      Card(
+//        child: Padding(
+//          padding: const EdgeInsets.all(16.0),
+//          child: Column(
+//            children: <Widget>[
+//              TextFormField(
+//                decoration: InputDecoration(labelText: 'Organization name'),
+//                initialValue: _name,
+//                validator: (value) =>
+//                    value.isNotEmpty ? null : 'Name can\'t be empty',
+//                onSaved: (value) {
+//                  print("Name value is");
+//                  print(value);
+//                  _name = value;
+//                },
+//              ),
+//              TextFormField(
+//                decoration: InputDecoration(labelText: 'Organization Address'),
+//                initialValue: _address,
+//                onSaved: (value) => _address = value,
+//              ),
+//              TextFormField(
+//                decoration: InputDecoration(labelText: 'Owner Phone Number'),
+//                initialValue: _ownerPhoneNumber,
+//                maxLength: 10,
+//                keyboardType: TextInputType.numberWithOptions(
+//                  signed: false,
+//                  decimal: false,
+//                ),
+//                onChanged: (v) async {
+//                  await setPhoneNumberErrorText(v);
+//                },
+//                validator: (v) => phoneNumberVaridationErrorText,
+//                onSaved: (value) => _ownerPhoneNumber = value,
+//              ),
+//            ],
+//          ),
+//        ),
+//      ),
+//      Padding(
+//        padding: const EdgeInsets.all(16.0),
+//        child: Text("Organization Details",
+//        style: TextStyle(fontSize: 16),),
+//      ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Organization name'),
         initialValue: _name,
@@ -139,11 +226,37 @@ class _EditOrganizationPageState extends State<EditOrganizationPage> {
         initialValue: _address,
         onSaved: (value) => _address = value,
       ),
+//      Padding(
+//        padding: const EdgeInsets.all(16.0),
+//        child: Text("Owner Details"),
+//      ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Owner Phone Number'),
         initialValue: _ownerPhoneNumber,
+        maxLength: 10,
+        keyboardType: TextInputType.numberWithOptions(
+          signed: false,
+          decimal: false,
+        ),
+        onChanged: (v) async {
+          await setPhoneNumberErrorText(v);
+        },
+        validator: (v) => phoneNumberVaridationErrorText!=''?phoneNumberVaridationErrorText:null,
         onSaved: (value) => _ownerPhoneNumber = value,
       ),
+//      TextFormField(
+//        decoration: InputDecoration(labelText: 'Owner Phone Number'),
+//        maxLength: 4,
+//        keyboardType: TextInputType.numberWithOptions(
+//          signed: false,
+//          decimal: false,
+//        ),
+//        onChanged: (v) async {
+//          await setPhoneNumberErrorText(v);
+//        },
+//        validator: (v) => phoneNumberVaridationErrorText!=''?phoneNumberVaridationErrorText:null,
+//        onSaved: (value) => _ownerPhoneNumber = value,
+//      ),
     ];
   }
 }

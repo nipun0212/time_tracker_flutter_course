@@ -53,7 +53,7 @@ class FirestoreService {
     final Stream<QuerySnapshot> snapshots = query.snapshots();
     print('snapshots $snapshots');
     return snapshots.map((snapshot) {
-      print(snapshot.documents.first.data);
+//      print(snapshot.documents.first.data);
       final result = snapshot.documents
           .map((snapshot) => builder(snapshot.data, snapshot.documentID))
           .where((value) => value != null)

@@ -9,14 +9,14 @@ import * as util from './util';
 //   projectId: "timetracker-9d0b4"
 // });
 
-// var serviceAccount = require("/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/timetracker-f6322943c258.json");
+var serviceAccount = require("/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/sec.json");
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://timetracker-9d0b4.firebaseio.com"
-// });
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://timetracker-9d0b4.firebaseio.com"
+});
 
-admin.initializeApp();
+// admin.initializeApp();
 const db = admin.firestore();
 // console.log(process.env.FIREBASE_CONFIG);
 // console.log(window?.location.hostname);
@@ -26,9 +26,14 @@ const db = admin.firestore();
 //   projectId: "timetracker-9d0b4",
 //   keyFilename: "/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/timetracker-f6322943c258.json"
 // });
-const getSuperAdminUID = () => getUIDFromPhoneNumber("+918971819883");
+const _getSuperAdminUID = (): Promise<string> => _getUIDFromPhoneNumber("+918971819883");
+const _userExists = async (uid: string): Promise<boolean> => (await db.doc(apiPath.user(uid)).get()).exists;
+const _setUserOTP = async (uid: string) => await db.doc(apiPath.userOTP(uid)).set({
+  appOTP: util.getOTP(),
+  emailOTP: util.getOTP()
+});
 
-export const getUIDFromPhoneNumber = async function (phoneNumber: string) {
+export const _getUIDFromPhoneNumber = async function (phoneNumber: string) {
   console.log("Fetching UID for phone number " + phoneNumber);
   let uid;
   try {
@@ -50,36 +55,60 @@ export const getUIDFromPhoneNumber = async function (phoneNumber: string) {
   return uid;
 };
 
-export const helloWorld = functions.https.onRequest(async (request, response) => {
-  let ownerPreviousPhoneNumber = '+918971819883';
-  const u = await db.collection(apiPath.users()).where('phoneNumber', '==', ownerPreviousPhoneNumber).get();
-  console.log(u);
-  const uid = await getUIDFromPhoneNumber("+918961819879");
-  let v = await db.collection(apiPath.users()).where('phoneNumber', '==', '+918971819883').get();
-  v.forEach(s => {
-    console.log(s.data());
-  })
-  console.log("UID from function is " + uid);
-  console.log(getUIDFromPhoneNumber("change.after.id"));
-  let z = { Y: "nipun" };
-  console.log(z);
-  console.log(z.Y);
-  response.send("Hello from Firebasedddd!");
-  let documenetId = "uofPDOfPCBsc99yMwbXn";
-  console.log(db.doc(`organizations/${documenetId}/private/roles`).path);
-  console.log(db.doc(`organizations/${documenetId}/private/roles`).parent.id);
-  // await db.
+export const _createUserWithPhoneNumber = async function (phoneNumber: string) {
+  const userUID: string = await _getUIDFromPhoneNumber(phoneNumber);
+  if (await _userExists(userUID))
+    await db.doc(apiPath.user(userUID)).set({
+      phoneNumber: phoneNumber,
+    }, { merge: true });
+};
 
-  let x = JSON.stringify(await (await db.doc(`organizations/${documenetId}`).get()).data());
-  documenetId = "TYcElzyTyrB5OmZz3Nk5";
-  let y = JSON.stringify(await (await db.doc(`organizations/${documenetId}`).get()).data());
-  console.log("x");
-  console.log(x);
-  console.log("y");
-  console.log(y);
-  if (x === y) {
-    console.log(true);
-  }
+
+
+
+export const helloWorld = functions.https.onRequest(async (request, response) => {
+  const phoneNumber = '+918971819883';
+  const userUID: string = await _getUIDFromPhoneNumber(phoneNumber);
+  console.log('useruid=' + userUID);
+  console.log('user = ' + await (await db.doc(apiPath.user(userUID)).get()).exists);
+  // var ma = await admin.firestore().collection('mail').add({
+  //   to: 'annubajaj05@gmail.com',
+  //   message: {
+  //     subject: 'Hello from Firebase!',
+  //     text: 'This is the plaintext section of the email body.',
+  //     html: 'This is the <code>HTML</code> section of the email body.',
+  //   }
+  // });
+  // console.log(ma);
+  // let ownerPreviousPhoneNumber = '+918971819883';
+  // const u = await db.collection(apiPath.users()).where('phoneNumber', '==', ownerPreviousPhoneNumber).get();
+  // console.log(u);
+  // const uid = await _getUIDFromPhoneNumber("+918961819879");
+  // let v = await db.collection(apiPath.users()).where('phoneNumber', '==', '+918971819883').get();
+  // v.forEach(s => {
+  //   console.log(s.data());
+  // })
+  // console.log("UID from function is " + uid);
+  // console.log(_getUIDFromPhoneNumber("change.after.id"));
+  // let z = { Y: "nipun" };
+  // console.log(z);
+  // console.log(z.Y);
+  // response.send("Hello from Firebasedddd!");
+  // let documenetId = "uofPDOfPCBsc99yMwbXn";
+  // console.log(db.doc(`organizations/${documenetId}/private/roles`).path);
+  // console.log(db.doc(`organizations/${documenetId}/private/roles`).parent.id);
+  // // await db.
+
+  // let x = JSON.stringify(await (await db.doc(`organizations/${documenetId}`).get()).data());
+  // documenetId = "TYcElzyTyrB5OmZz3Nk5";
+  // let y = JSON.stringify(await (await db.doc(`organizations/${documenetId}`).get()).data());
+  // console.log("x");
+  // console.log(x);
+  // console.log("y");
+  // console.log(y);
+  // if (x === y) {
+  //   console.log(true);
+  // }
   // console.log(await (await db.doc(`organizations/${documenetId}/private/roles`).get()).exists);
   // console.log(await (await db.doc(`organizations/${documenetId}/private/roles`).get()).data()?.isOwner);
 
@@ -87,12 +116,21 @@ export const helloWorld = functions.https.onRequest(async (request, response) =>
   //   "isOwner": ['dsdsdsds', 'dsfdsf'],
   //   "isManager": ['ddd']
   // }));
+  response.send("Hello from Firebasedddd!");
 });
 
-exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
-  console.log(user);
+exports.setOTP = functions.auth.user().onCreate(async (user) => {
+  const userUID = user.uid;
+  await db.doc(apiPath.userOTP(userUID)).set({
+    appOTP: util.getOTP(),
+    emailOTP: util.getOTP()
+  })
 });
 
+exports.userInitialize = functions.firestore
+  .document('users/{userUID}').onWrite(async (change, context) => {
+    await _setUserOTP(change.after.id);
+  });
 
 exports.userInitialize = functions.firestore
   .document('users/{uid}').onCreate(async (change, context) => {
@@ -107,7 +145,7 @@ exports.organizationInitialize = functions.firestore
   .document('organizations/{oraganizationId}').onWrite(async (change, context) => {
     const ownerPreviousPhoneNumber = change.before.data()?.ownerPhoneNumber;
     const ownerCurrentPhoneNumber = change.after.data()?.ownerPhoneNumber;
-    const superAdminUID = await getSuperAdminUID();
+    const superAdminUID = await _getSuperAdminUID();
     const organizationID = change.after.id;
     console.log("change.after.id");
     console.log(change.after.id);
@@ -128,7 +166,7 @@ exports.organizationInitialize = functions.firestore
       console.log("There is no change");
       return;
     }
-    const organizationOwnerUIDAfter = await getUIDFromPhoneNumber(ownerCurrentPhoneNumber);
+    const organizationOwnerUIDAfter = await _getUIDFromPhoneNumber(ownerCurrentPhoneNumber);
     // const organizationOwnerUIDBefore = await getUIDFromPhoneNumber(ownerPreviousPhoneNumber);
 
     console.log("organizationOwnerUID");
