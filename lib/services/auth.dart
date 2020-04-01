@@ -10,13 +10,15 @@ class User {
       this.photoUrl,
       this.displayName,
       this.isOwner,
-      this.isSuperAdmin});
+      this.isSuperAdmin,
+      this.organizationDocId});
 
   final String uid;
   final String photoUrl;
   final String displayName;
   final isOwner;
   final isSuperAdmin;
+  final organizationDocId;
 }
 
 abstract class AuthBase {
@@ -48,20 +50,31 @@ class Auth implements AuthBase {
   final Function(PhoneCodeSent) cs;
   String verificationId;
 
-  User _userFromFirebase(FirebaseUser user) {
+  Future<User> _userFromFirebase(FirebaseUser user) async {
     if (user == null) {
       return null;
     }
+    bool isOwner = false;
+    bool isSuperAdmin = false;
+    String organizationDocId;
+    (await user.getIdToken()).claims.forEach((k, v) {
+      print('k= $k and v= $v');
+      if (k == 'isOwner') isOwner = v;
+      if (k == 'isSuperAdmin') isSuperAdmin = v;
+      if (k == 'organizationDocId') organizationDocId = v;
+    });
     return User(
-      uid: user.uid,
-      displayName: user.displayName,
-      photoUrl: user.photoUrl,
-    );
+        uid: user.uid,
+        displayName: user.displayName,
+        photoUrl: user.photoUrl,
+        isOwner: isOwner,
+        isSuperAdmin: isSuperAdmin,
+        organizationDocId: organizationDocId);
   }
 
   @override
   Stream<User> get onAuthStateChanged {
-    return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
+    return _firebaseAuth.onAuthStateChanged.asyncMap(_userFromFirebase);
   }
 
   @override
@@ -130,9 +143,17 @@ class Auth implements AuthBase {
     final AuthResult authResult =
         (await _firebaseAuth.signInWithCredential(credential));
     print("authResult");
-    print(authResult);
+    print(authResult.user);
     print(authResult.user.uid);
-
+    bool isOwner;
+    bool isSuperAdmin;
+    (await authResult.user.getIdToken()).claims.forEach((k, v) {
+      print('k= $k and v= $v');
+      if (k == 'isOwner') isOwner = v;
+      if (k == 'isSuperAdmin') isSuperAdmin = v;
+    });
+    print('isOwenr = $isOwner');
+    print('isSuperAdmin = $isSuperAdmin');
     return _userFromFirebase(authResult.user);
   }
 

@@ -2,21 +2,25 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
-import 'package:time_tracker_flutter_course/app/home/models/bill.dart';
 import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/app/home/models/organization.dart';
+import 'package:time_tracker_flutter_course/app/owner/models/bill.dart';
 import 'package:time_tracker_flutter_course/services/api_path.dart';
 import 'package:time_tracker_flutter_course/services/firestore_service.dart';
+
+import 'auth.dart';
 
 abstract class Database {
   Future<void> setJob(Job job);
 
   Future<void> setOrganization(Organization organization, bool isUpdate);
+  Future<void> setBill(Bill bill, bool isUpdate);
 
   Future<void> deleteJob(Job job);
 
   Future<void> deleteOrganization(Organization organization);
+  Future<void> deleteBill(Bill bill);
 
   Stream<List<Job>> jobsStream();
 
@@ -30,28 +34,26 @@ abstract class Database {
 
   Stream<List<Entry>> entriesStream({Job job});
 
-  Stream<List<Bill>> billsStream(@required String organizationId);
+  Stream<List<Bill>> billStream(q(Query query));
 }
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 class FirestoreDatabase implements Database {
-  FirestoreDatabase({@required this.uid, @required this.organizationID})
-      : assert(uid != null);
-  final String uid;
-  final organizationID;
+  FirestoreDatabase({@required this.user});
+  final User user;
 
   final _service = FirestoreService.instance;
 
   @override
   Future<void> setJob(Job job) async => await _service.setData(
-        path: APIPath.job(uid, job.id),
+        path: APIPath.job(user.uid, job.id),
         data: job.toMap(),
       );
 
   @override
   Future<void> setOrganization(Organization organization, bool isUpdate) async {
-    organization.setLastUpdated(uid);
+    organization.setLastUpdated(user.uid);
     if (isUpdate)
       await _service.setData(
         path: APIPath.organization(organization.id),
@@ -65,6 +67,20 @@ class FirestoreDatabase implements Database {
   }
 
   @override
+  Future<void> setBill(Bill bill, bool isUpdate) async {
+    if (isUpdate)
+      await _service.setData(
+        path: APIPath.bills(user.organizationDocId),
+        data: bill.toMap(),
+      );
+    else
+      await _service.setData1(
+        path: APIPath.bill(user.organizationDocId, bill.id),
+        data: bill.toMap(),
+      );
+  }
+
+  @override
   Future<void> deleteJob(Job job) async {
     // delete where entry.jobId == job.jobId
     final allEntries = await entriesStream(job: job).first;
@@ -74,7 +90,7 @@ class FirestoreDatabase implements Database {
       }
     }
     // delete job
-    await _service.deleteData(path: APIPath.job(uid, job.id));
+    await _service.deleteData(path: APIPath.job(user.uid, job.id));
   }
 
   @override
@@ -83,14 +99,20 @@ class FirestoreDatabase implements Database {
   }
 
   @override
+  Future<void> deleteBill(Bill bill) async {
+    await _service.deleteData(
+        path: APIPath.bill(user.organizationDocId, bill.id));
+  }
+
+  @override
   Stream<Job> jobStream({@required String jobId}) => _service.documentStream(
-        path: APIPath.job(uid, jobId),
+        path: APIPath.job(user.uid, jobId),
         builder: (data, documentId) => Job.fromMap(data, documentId),
       );
 
   @override
   Stream<List<Job>> jobsStream() => _service.collectionStream(
-        path: APIPath.jobs(uid),
+        path: APIPath.jobs(user.uid),
         builder: (data, documentId) => Job.fromMap(data, documentId),
       );
 
@@ -103,27 +125,26 @@ class FirestoreDatabase implements Database {
 //      queryBuilder:(query)=> q(query)!=null?q(query):null
           );
 
-  Stream<List<Bill>> billsStream(@required String organizationId) {
-    return _service.collectionStream(
-      path: APIPath.bills(organizationId),
+  @override
+  Stream<List<Bill>> billStream(q(Query query)) => _service.collectionStream(
+      path: APIPath.bills(user.organizationDocId),
       builder: (data, documentId) => Bill.fromMap(data, documentId),
-    );
-  }
+      queryBuilder: q);
 
   @override
   Future<void> setEntry(Entry entry) async => await _service.setData(
-        path: APIPath.entry(uid, entry.id),
+        path: APIPath.entry(user.uid, entry.id),
         data: entry.toMap(),
       );
 
   @override
   Future<void> deleteEntry(Entry entry) async =>
-      await _service.deleteData(path: APIPath.entry(uid, entry.id));
+      await _service.deleteData(path: APIPath.entry(user.uid, entry.id));
 
   @override
   Stream<List<Entry>> entriesStream({Job job}) =>
       _service.collectionStream<Entry>(
-        path: APIPath.entries(uid),
+        path: APIPath.entries(user.uid),
         queryBuilder: job != null
             ? (query) => query.where('jobId', isEqualTo: job.id)
             : null,

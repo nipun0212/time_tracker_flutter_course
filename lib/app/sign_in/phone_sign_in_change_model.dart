@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:time_tracker_flutter_course/app/sign_in/email_sign_in_model.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/phone_sign_in_model.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/validators.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
@@ -9,7 +7,6 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   PhoneSignInChangeModel({
     @required this.auth,
     this.phoneNumber = '',
-
     this.password = '',
     this.formType = PhoneSignInFormType.sendOTP,
     this.isLoading = false,
@@ -23,21 +20,21 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   bool isLoading;
   bool submitted;
 
-  void ab(String verificationId, [int forceResendingToken])async {
+  void ab(String verificationId, [int forceResendingToken]) async {
     print('me 2called');
     print('verificationId$verificationId');
     isLoading = true;
-    print(await auth.sendOTP('123456',verificationId));
-
+    print(await auth.sendOTP('123456', verificationId));
   }
+
   Future<void> submit() async {
     updateWith(submitted: true, isLoading: true);
     try {
       if (formType == PhoneSignInFormType.sendOTP) {
-        await auth.signInWithPhoneNumber(phoneNumber,ab);
+        await auth.signInWithPhoneNumber(phoneNumber, ab);
 //       print(await auth.sendOTP('123456'));
       } else {
-      auth.signInWithPhoneNumber(phoneNumber,ab);
+        auth.signInWithPhoneNumber(phoneNumber, ab);
 //     print(await auth.sendOTP('123456'));
       }
     } catch (e) {
@@ -47,9 +44,7 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   }
 
   String get primaryButtonText {
-    return formType == PhoneSignInFormType.sendOTP
-        ? 'Send OTP'
-        : 'Submit';
+    return formType == PhoneSignInFormType.sendOTP ? 'Send OTP' : 'Submit';
   }
 
   String get secondaryButtonText {
@@ -59,8 +54,7 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   }
 
   bool get canSubmit {
-    return emailValidator.isValid(phoneNumber) &&
-        !isLoading;
+    return emailValidator.isValid(phoneNumber) && !isLoading;
   }
 
   String get passwordErrorText {
@@ -86,7 +80,8 @@ class PhoneSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
     );
   }
 
-  void updatePhoneNumber(String phoneNumber) => updateWith(phoneNumber: phoneNumber);
+  void updatePhoneNumber(String phoneNumber) =>
+      updateWith(phoneNumber: phoneNumber);
 
   void updatePassword(String password) => updateWith(password: password);
 

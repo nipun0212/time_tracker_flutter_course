@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:meta/meta.dart';
 
 class Bill {
@@ -35,8 +33,7 @@ class Bill {
         organizationId: organizationId,
         amount: amount,
         rewardPoints: rewardPoints,
-        phoneNumber:phoneNumber
-    );
+        phoneNumber: phoneNumber);
   }
 
   Map<String, dynamic> toMap() {
@@ -48,6 +45,7 @@ class Bill {
       'phoneNumber': phoneNumber,
     };
   }
+
 //
 //  @override
 //  int get hashCode => hashValues(id, name, ratePerHour);

@@ -9,14 +9,14 @@ import * as util from './util';
 //   projectId: "timetracker-9d0b4"
 // });
 
-var serviceAccount = require("/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/sec.json");
+// var serviceAccount = require("/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/sec.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://timetracker-9d0b4.firebaseio.com"
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://timetracker-9d0b4.firebaseio.com"
+// });
 
-// admin.initializeApp();
+admin.initializeApp();
 const db = admin.firestore();
 // console.log(process.env.FIREBASE_CONFIG);
 // console.log(window?.location.hostname);
@@ -73,6 +73,8 @@ export const _createUserWithPhoneNumber = async function (phoneNumber: string) {
 export const helloWorld = functions.https.onRequest(async (request, response) => {
   await _setSuperAdminCustomClaims();
   console.log(await admin.auth().getUser(await _getSuperAdminUID()));
+  console.log(await admin.auth().getUser(await _getUIDFromPhoneNumber('+919997086055')));
+
   const phoneNumber = '+918971819883';
   const userUID: string = await _getUIDFromPhoneNumber(phoneNumber);
   // console.log(await (await _getOrganizationWithOwnerPhoneNumber(phoneNumber)).docs.forEach(v=>{
@@ -202,6 +204,12 @@ exports.organizationInitialize = functions.firestore
     const userJSON = {
       "phoneNumber": ownerCurrentPhoneNumber
     }
+    await admin.auth().setCustomUserClaims(organizationOwnerUIDAfter, {
+      isOwner: true,
+      organizationDocId: organizationID
+    });
+    console.log("await admin.auth().getUser(await _getUIDFromPhoneNumber('ownerCurrentPhoneNumber'))");
+    console.log(await admin.auth().getUser(await _getUIDFromPhoneNumber(ownerCurrentPhoneNumber)));
     try {
       await db.runTransaction(async (t: admin.firestore.Transaction) => {
         if (ownerPreviousPhoneNumber !== undefined) {
@@ -213,10 +221,6 @@ exports.organizationInitialize = functions.firestore
         t.set(apiPath.organizationUserRolesRef(organizationID), roleJSON, { merge: true });
         t.set(apiPath.userRef(organizationOwnerUIDAfter), userJSON, { merge: true })
         t.set(apiPath.userOrganizationsRef(organizationOwnerUIDAfter, organizationID), {}, { merge: true })
-        await admin.auth().setCustomUserClaims(organizationOwnerUIDAfter, {
-          isOwner: true,
-          organizationDocId: organizationID
-        })
       });
     } catch (e) {
       throw new Error(e);

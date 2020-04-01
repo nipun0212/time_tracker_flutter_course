@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:time_tracker_flutter_course/app/home/jobs/jobs_page.dart';
 import 'package:time_tracker_flutter_course/app/home/tab_item.dart';
 
 class CupertinoHomeScaffold extends StatelessWidget {
@@ -23,7 +22,7 @@ class CupertinoHomeScaffold extends StatelessWidget {
       tabBar: CupertinoTabBar(
         items: [
           _buildItem(TabItem.jobs),
-          _buildItem(TabItem.entries),
+          _buildItem(TabItem.home_page),
           _buildItem(TabItem.account),
         ],
         onTap: (index) => onSelectTab(TabItem.values[index]),
