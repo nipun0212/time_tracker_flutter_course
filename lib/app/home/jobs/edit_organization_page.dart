@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:time_tracker_flutter_course/app/home/models/organization.dart';
-import 'package:time_tracker_flutter_course/common_widgets/platform_alert_dialog.dart';
-import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
 
 class EditOrganizationPage extends StatefulWidget {
@@ -47,7 +45,7 @@ class _EditOrganizationPageState extends State<EditOrganizationPage> {
     if (widget.organization != null) {
       _name = widget.organization.name;
       _address = widget.organization.address;
-      _ownerPhoneNumber = widget.organization.ownerPhoneNumber;
+      _ownerPhoneNumber = widget.organization.ownerPhoneNumber.split('+91')[1];
     }
   }
 
@@ -241,7 +239,9 @@ class _EditOrganizationPageState extends State<EditOrganizationPage> {
         onChanged: (v) async {
           await setPhoneNumberErrorText(v);
         },
-        validator: (v) => phoneNumberVaridationErrorText!=''?phoneNumberVaridationErrorText:null,
+        validator: (v) => phoneNumberVaridationErrorText != ''
+            ? phoneNumberVaridationErrorText
+            : null,
         onSaved: (value) => _ownerPhoneNumber = value,
       ),
 //      TextFormField(

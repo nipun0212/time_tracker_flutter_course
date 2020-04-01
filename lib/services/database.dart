@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+import 'package:time_tracker_flutter_course/app/home/models/bill.dart';
 import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
-import 'package:time_tracker_flutter_course/app/home/models/bill.dart';
 import 'package:time_tracker_flutter_course/app/home/models/organization.dart';
 import 'package:time_tracker_flutter_course/services/api_path.dart';
 import 'package:time_tracker_flutter_course/services/firestore_service.dart';
@@ -36,8 +36,10 @@ abstract class Database {
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 class FirestoreDatabase implements Database {
-  FirestoreDatabase({@required this.uid}) : assert(uid != null);
+  FirestoreDatabase({@required this.uid, @required this.organizationID})
+      : assert(uid != null);
   final String uid;
+  final organizationID;
 
   final _service = FirestoreService.instance;
 
@@ -49,6 +51,7 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<void> setOrganization(Organization organization, bool isUpdate) async {
+    organization.setLastUpdated(uid);
     if (isUpdate)
       await _service.setData(
         path: APIPath.organization(organization.id),

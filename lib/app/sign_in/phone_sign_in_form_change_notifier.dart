@@ -11,7 +11,7 @@ class PhoneSignInFormChangeNotifier extends StatefulWidget {
   final PhoneSignInChangeModel model;
 
   static Widget create(BuildContext context) {
-    final AuthBase auth = Provider.of<AuthBase>(context);
+    final AuthBase auth = Provider.of<AuthBase>(context, listen: false);
     return ChangeNotifierProvider<PhoneSignInChangeModel>(
       create: (context) => PhoneSignInChangeModel(auth: auth),
       child: Consumer<PhoneSignInChangeModel>(

@@ -3,19 +3,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:time_tracker_flutter_course/app/sign_in/phone_sign_in_change_model.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 
 class User {
-  User({
-    @required this.uid,
-    this.photoUrl,
-    this.displayName,
-  });
+  User(
+      {@required this.uid,
+      this.photoUrl,
+      this.displayName,
+      this.isOwner,
+      this.isSuperAdmin});
 
   final String uid;
   final String photoUrl;
   final String displayName;
+  final isOwner;
+  final isSuperAdmin;
 }
 
 abstract class AuthBase {
@@ -33,9 +34,10 @@ abstract class AuthBase {
 
   Future<User> signInWithFacebook();
 
-  void signInWithPhoneNumber(String phoneNumber,Function(String verificationId, [int forceResendingToken]) ab);
+  void signInWithPhoneNumber(String phoneNumber,
+      Function(String verificationId, [int forceResendingToken]) ab);
 
-  Future<User> sendOTP(String otp,String verificationId);
+  Future<User> sendOTP(String otp, String verificationId);
 
   Future<void> signOut();
 }
@@ -55,7 +57,6 @@ class Auth implements AuthBase {
       displayName: user.displayName,
       photoUrl: user.photoUrl,
     );
-
   }
 
   @override
@@ -66,7 +67,15 @@ class Auth implements AuthBase {
   @override
   Future<User> currentUser() async {
     final user = await _firebaseAuth.currentUser();
-
+    bool isOwner;
+    bool isSuperAdmin;
+    (await user.getIdToken()).claims.forEach((k, v) {
+      print('k= $k and v= $v');
+      if (k == 'isOwner') isOwner = v;
+      if (k == 'isSuperAdmin') isSuperAdmin = v;
+    });
+    print('isOwenr = $isOwner');
+    print('isSuperAdmin = $isSuperAdmin');
     return _userFromFirebase(user);
   }
 
@@ -84,9 +93,10 @@ class Auth implements AuthBase {
   }
 
   @override
-  void signInWithPhoneNumber(String phoneNumber,Function(String verificationId, [int forceResendingToken]) ab) async{
+  void signInWithPhoneNumber(String phoneNumber,
+      Function(String verificationId, [int forceResendingToken]) ab) async {
     print('called');
-     await _firebaseAuth.verifyPhoneNumber(
+    await _firebaseAuth.verifyPhoneNumber(
       phoneNumber: '+91' + phoneNumber,
       timeout: Duration(seconds: 60),
       verificationCompleted: null,
@@ -108,13 +118,20 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<User> sendOTP(String otp,verificationId) async {
+  Future<User> sendOTP(String otp, verificationId) async {
     final AuthCredential credential = PhoneAuthProvider.getCredential(
       verificationId: verificationId,
       smsCode: otp,
     );
-    final authResult = await _firebaseAuth.signInWithCredential(credential);
+    print("otp");
+    print(otp);
+    print('x');
+
+    final AuthResult authResult =
+        (await _firebaseAuth.signInWithCredential(credential));
+    print("authResult");
     print(authResult);
+    print(authResult.user.uid);
 
     return _userFromFirebase(authResult.user);
   }

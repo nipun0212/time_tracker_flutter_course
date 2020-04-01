@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:meta/meta.dart';
 
 class Organization {
@@ -7,14 +5,17 @@ class Organization {
       {this.id,
       @required this.name,
       @required this.address,
-      @required this.ownerPhoneNumber});
+      @required this.ownerPhoneNumber,
+      this.lastUpdatedBy});
 
   final String id;
   final String name;
   final String address;
   final String ownerPhoneNumber;
+  String lastUpdatedBy;
 
   factory Organization.fromMap(Map<String, dynamic> data, String documentId) {
+    print('Organization from org is $data');
     if (data == null) {
       return null;
     }
@@ -32,11 +33,16 @@ class Organization {
     );
   }
 
+  void setLastUpdated(String lastUpdatedBy) {
+    this.lastUpdatedBy = lastUpdatedBy;
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,
       'address': address,
-      'ownerPhoneNumber': ownerPhoneNumber
+      'ownerPhoneNumber': ownerPhoneNumber,
+      'lastUpdatedBy': lastUpdatedBy
     };
   }
 

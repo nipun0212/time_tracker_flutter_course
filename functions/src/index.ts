@@ -26,8 +26,12 @@ const db = admin.firestore();
 //   projectId: "timetracker-9d0b4",
 //   keyFilename: "/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/timetracker-f6322943c258.json"
 // });
+const _setSuperAdminCustomClaims =async ()=>await admin.auth().setCustomUserClaims(await _getSuperAdminUID(),{
+  isSuperAdmin: true
+})
 const _getSuperAdminUID = (): Promise<string> => _getUIDFromPhoneNumber("+918971819883");
 const _userExists = async (uid: string): Promise<boolean> => (await db.doc(apiPath.user(uid)).get()).exists;
+// const _getOrganizationWithOwnerPhoneNumber = async (phoneNumber: string) => await db.collection(apiPath.organizations()).where('ownerPhoneNumber', '==', phoneNumber).get();
 const _setUserOTP = async (uid: string) => await db.doc(apiPath.userOTP(uid)).set({
   appOTP: util.getOTP(),
   emailOTP: util.getOTP()
@@ -67,8 +71,13 @@ export const _createUserWithPhoneNumber = async function (phoneNumber: string) {
 
 
 export const helloWorld = functions.https.onRequest(async (request, response) => {
+  await _setSuperAdminCustomClaims();
+  console.log(await admin.auth().getUser(await _getSuperAdminUID()));
   const phoneNumber = '+918971819883';
   const userUID: string = await _getUIDFromPhoneNumber(phoneNumber);
+  // console.log(await (await _getOrganizationWithOwnerPhoneNumber(phoneNumber)).docs.forEach(v=>{
+  //   console.log(v.data?.ownerPhoneNumber);
+  // }));
   console.log('useruid=' + userUID);
   console.log('user = ' + await (await db.doc(apiPath.user(userUID)).get()).exists);
   // var ma = await admin.firestore().collection('mail').add({
@@ -146,15 +155,44 @@ exports.organizationInitialize = functions.firestore
     const ownerPreviousPhoneNumber = change.before.data()?.ownerPhoneNumber;
     const ownerCurrentPhoneNumber = change.after.data()?.ownerPhoneNumber;
     const superAdminUID = await _getSuperAdminUID();
+    if (await (await db.collection(apiPath.organizations()).where('ownerPhoneNumber', '==', ownerCurrentPhoneNumber).get()).size !== 1) {
+      console.log("context.eventId");
+      console.log(context.eventId);
+      await change.after.ref.set({
+        "lastError": 'Phone number already exists'
+      }, { merge: true });
+      const oldData = change.before.data();
+      if (oldData)
+        await change.after.ref.set(oldData, { merge: true });
+      throw new Error("Phone number not unique");
+    }
+    console.log(superAdminUID);
     const organizationID = change.after.id;
-
+    console.log("functions.auth.user");
+    console.log(functions.auth.user());
+    console.log(functions.auth.service);
+    console.log("change.after.id");
+    console.log(change.after.id);
+    console.log("change.before.id");
+    console.log(change.before.id);
+    console.log("superAdminUID");
+    console.log(superAdminUID);
+    console.log("context.auth?.uid");
+    console.log(context.auth?.uid);
+    console.log("context.auth");
+    console.log(context.auth);
+    console.log("context.authType");
+    console.log(context.authType);
+    console.log("ownerPhoneNumberBefore");
+    console.log(ownerPreviousPhoneNumber);
+    console.log("ownerPhoneNumberAfter");
+    console.log(ownerCurrentPhoneNumber);
     if (ownerPreviousPhoneNumber === ownerCurrentPhoneNumber) {
       console.log("There is no change");
       return;
     }
     const organizationOwnerUIDAfter = await _getUIDFromPhoneNumber(ownerCurrentPhoneNumber);
     // const organizationOwnerUIDBefore = await getUIDFromPhoneNumber(ownerPreviousPhoneNumber);
-
     console.log("organizationOwnerUID");
     console.log(organizationOwnerUIDAfter);
     // const roleRef = db.doc(`organizations/${documenetId}/private/roles`);
@@ -175,6 +213,10 @@ exports.organizationInitialize = functions.firestore
         t.set(apiPath.organizationUserRolesRef(organizationID), roleJSON, { merge: true });
         t.set(apiPath.userRef(organizationOwnerUIDAfter), userJSON, { merge: true })
         t.set(apiPath.userOrganizationsRef(organizationOwnerUIDAfter, organizationID), {}, { merge: true })
+        await admin.auth().setCustomUserClaims(organizationOwnerUIDAfter, {
+          isOwner: true,
+          organizationDocId: organizationID
+        })
       });
     } catch (e) {
       throw new Error(e);
