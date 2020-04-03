@@ -23,6 +23,7 @@ class CupertinoHomeScaffold extends StatelessWidget {
       tabBar: CupertinoTabBar(
         items: [
           _buildItem(TabItem.jobs),
+          _buildItem(TabItem.rewards),
           _buildItem(TabItem.home_page),
           _buildItem(TabItem.account),
         ],

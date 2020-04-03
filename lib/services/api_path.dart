@@ -10,4 +10,6 @@ class APIPath {
       'organizations/$organizationId/bills/$billId';
   static String organizations() => 'organizations';
   static String organization(organizationId) => 'organizations/$organizationId';
+  static String rewardSetting(organizationId) =>
+      'organizations/$organizationId/private/rewardSetting';
 }

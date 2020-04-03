@@ -28,7 +28,7 @@ class BillsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Organizations'),
+        title: Text('Bill'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add, color: Colors.white),

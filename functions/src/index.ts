@@ -9,14 +9,14 @@ import * as util from './util';
 //   projectId: "timetracker-9d0b4"
 // });
 
-// var serviceAccount = require("/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/sec.json");
+var serviceAccount = require("/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/sec.json");
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://timetracker-9d0b4.firebaseio.com"
-// });
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://timetracker-9d0b4.firebaseio.com"
+});
 
-admin.initializeApp();
+// admin.initializeApp();
 const db = admin.firestore();
 // console.log(process.env.FIREBASE_CONFIG);
 // console.log(window?.location.hostname);

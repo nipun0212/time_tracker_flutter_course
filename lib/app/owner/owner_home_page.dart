@@ -3,6 +3,7 @@ import 'package:time_tracker_flutter_course/app/owner/account/account_page.dart'
 import 'package:time_tracker_flutter_course/app/owner/cupertino_home_scaffold.dart';
 import 'package:time_tracker_flutter_course/app/owner/entries/entries_page.dart';
 import 'package:time_tracker_flutter_course/app/owner/jobs/bill_page.dart';
+import 'package:time_tracker_flutter_course/app/owner/rewards/rewards_page.dart';
 import 'package:time_tracker_flutter_course/app/owner/tab_item.dart';
 
 import 'jobs/bill_page.dart';
@@ -17,13 +18,16 @@ class _OnwerHomePageState extends State<OnwerHomePage> {
 
   final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
     TabItem.jobs: GlobalKey<NavigatorState>(),
+    TabItem.rewards: GlobalKey<NavigatorState>(),
     TabItem.home_page: GlobalKey<NavigatorState>(),
     TabItem.account: GlobalKey<NavigatorState>(),
   };
 
   Map<TabItem, WidgetBuilder> get widgetBuilders {
+    print('buildingwidger');
     return {
       TabItem.jobs: (_) => BillsPage(),
+      TabItem.rewards: (_) => RewardsPage(),
       TabItem.home_page: (context) => EntriesPage.create(context),
       TabItem.account: (_) => AccountPage(),
     };

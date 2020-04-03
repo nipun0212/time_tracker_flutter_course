@@ -9,7 +9,7 @@ class Bill {
       @required this.customerPhoneNumber});
 
   final String id;
-  final String uid;
+  String uid;
   final String customerPhoneNumber;
   final num amount;
   final num rewardPoints;

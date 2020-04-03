@@ -6,6 +6,7 @@ import 'package:time_tracker_flutter_course/app/home/models/entry.dart';
 import 'package:time_tracker_flutter_course/app/home/models/job.dart';
 import 'package:time_tracker_flutter_course/app/home/models/organization.dart';
 import 'package:time_tracker_flutter_course/app/owner/models/bill.dart';
+import 'package:time_tracker_flutter_course/app/owner/models/reward.dart';
 import 'package:time_tracker_flutter_course/services/api_path.dart';
 import 'package:time_tracker_flutter_course/services/firestore_service.dart';
 
@@ -35,6 +36,7 @@ abstract class Database {
   Stream<List<Entry>> entriesStream({Job job});
 
   Stream<List<Bill>> billStream(q(Query query));
+  Stream<Reward> RewardSettingStream();
 }
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -68,14 +70,15 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<void> setBill(Bill bill, bool isUpdate) async {
+    bill.uid = user.uid;
     if (isUpdate)
       await _service.setData(
-        path: APIPath.bills(user.organizationDocId),
+        path: APIPath.bill(user.organizationDocId, bill.id),
         data: bill.toMap(),
       );
     else
       await _service.setData1(
-        path: APIPath.bill(user.organizationDocId, bill.id),
+        path: APIPath.bills(user.organizationDocId),
         data: bill.toMap(),
       );
   }
@@ -117,13 +120,14 @@ class FirestoreDatabase implements Database {
       );
 
   @override
-  Stream<List<Organization>> organizationsStream(q(Query query)) =>
-      _service.collectionStream(
-          path: APIPath.organizations(),
-          builder: (data, documentId) => Organization.fromMap(data, documentId),
-          queryBuilder: q
+  Stream<List<Organization>> organizationsStream(q(Query query)) {
+    return _service.collectionStream(
+        path: APIPath.organizations(),
+        builder: (data, documentId) => Organization.fromMap(data, documentId),
+        queryBuilder: q
 //      queryBuilder:(query)=> q(query)!=null?q(query):null
-          );
+        );
+  }
 
   @override
   Stream<List<Bill>> billStream(q(Query query)) => _service.collectionStream(
@@ -150,5 +154,10 @@ class FirestoreDatabase implements Database {
             : null,
         builder: (data, documentID) => Entry.fromMap(data, documentID),
         sort: (lhs, rhs) => rhs.start.compareTo(lhs.start),
+      );
+
+  Stream<Reward> RewardSettingStream() => _service.documentStream(
+        path: APIPath.rewardSetting(user.organizationDocId),
+        builder: (data, documentID) => Reward.fromMap(data, documentID),
       );
 }

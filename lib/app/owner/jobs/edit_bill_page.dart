@@ -185,8 +185,7 @@ class _EditBillPageState extends State<EditBillPage> {
           signed: false,
           decimal: false,
         ),
-        validator: (v) =>
-            _customerPhoneNumber.length == 10 ? null : 'Invalid Phone Number',
+        validator: (v) => v?.length == 10 ? null : 'Invalid Phone Number',
         onSaved: (value) => _customerPhoneNumber = value,
       ),
       TextFormField(

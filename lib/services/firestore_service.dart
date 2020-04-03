@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 class FirestoreService {
-
 //  void initState() {
 //    print('init stae called');
 //    Firestore.instance.settings(host: "10.0.2.2:8080", sslEnabled: false);  }
@@ -30,7 +29,6 @@ class FirestoreService {
     await reference.document().setData(data);
   }
 
-
   Future<void> deleteData({@required String path}) async {
     final reference = Firestore.instance.document(path);
     print('delete: $path');
@@ -44,8 +42,19 @@ class FirestoreService {
     int sort(T lhs, T rhs),
   }) {
 //    Firestore.instance.settings(host: "10.0.2.2:8080", sslEnabled: false);
-    print(path);
-
+    print('path is $path');
+    Query q = Firestore.instance
+        .collectionGroup('bills')
+        .where('amount', isGreaterThan: 10)
+        .where('rewardPoints', isEqualTo: 1);
+    (q.snapshots()).map((convert) {
+      print('in map nipun');
+      print(
+          'value fromcollectionGroup is ${convert.documents.length.toString()} ');
+    });
+    print('path is $path and q');
+    (q.snapshots()).first.then((onValue) =>
+        {print('value fromcollectionGroup is ${onValue.documents.length} ')});
     Query query = Firestore.instance.collection(path);
     if (queryBuilder != null) {
       query = queryBuilder(query);
@@ -71,6 +80,7 @@ class FirestoreService {
   }) {
     final DocumentReference reference = Firestore.instance.document(path);
     final Stream<DocumentSnapshot> snapshots = reference.snapshots();
-    return snapshots.map((snapshot) => builder(snapshot.data, snapshot.documentID));
+    return snapshots
+        .map((snapshot) => builder(snapshot.data, snapshot.documentID));
   }
 }

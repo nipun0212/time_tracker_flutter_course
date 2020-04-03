@@ -5,6 +5,8 @@ import 'package:time_tracker_flutter_course/app/sign_in/sign_in_page.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
 
+import 'home/home_page.dart';
+
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,14 +22,14 @@ class LandingPage extends StatelessWidget {
             print('user isSuperAdmin is ${user.isSuperAdmin}');
             print('user isOwner is ${user.isOwner}');
             print('user organizationDocId is ${user.organizationDocId}');
-
             return Provider<User>.value(
               value: user,
               child: Provider<Database>(
                 create: (_) => FirestoreDatabase(user: user),
-                child: OnwerHomePage(),
+                child: user.isSuperAdmin?HomePage():OnwerHomePage(),
               ),
             );
+
           } else {
             return Scaffold(
               body: Center(
