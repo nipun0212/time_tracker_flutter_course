@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:time_tracker_flutter_course/app/owner/models/bill.dart';
 import 'package:time_tracker_flutter_course/app/owner/models/reward.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
 
@@ -62,22 +61,12 @@ class _EditRewardPageState extends State<EditRewardPage> {
     if (_validateAndSaveForm()) {
       _id = widget.reward?.id;
       Reward reward;
-      if (_id != null) {
-        bill = Bill(
-            id: _id,
-            customerPhoneNumber: _customerPhoneNumber,
-            amount: _amount,
-            rewardPoints: _rewardPoints);
-        await widget.database.setBill(bill, true);
-      } else {
-        bill = Bill(
-            customerPhoneNumber: _customerPhoneNumber,
-            amount: _amount,
-            rewardPoints: _rewardPoints);
-        await widget.database.setBill(bill, false);
-      }
-      print(bill);
-
+      reward = Reward(
+          minAmount: _minAmount,
+          percentageOfAmount: _percentageOfAmount,
+          minRedeemLimit: _minRedeemLimit);
+      await widget.database.setReward(reward);
+      print(reward);
       Navigator.of(context).pop();
     }
   }
@@ -87,17 +76,17 @@ class _EditRewardPageState extends State<EditRewardPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2.0,
-        title: Text(widget.bill == null ? 'New Bill' : 'Edit Bill'),
+        title: Text(widget.reward == null ? 'New Bill' : 'Edit Reward'),
         actions: <Widget>[
           FlatButton(
             child: Text(
               'Save',
               style: TextStyle(
                 fontSize: 18,
-                color: isLoading ? Colors.black54 : Colors.white,
+                color: Colors.white,
               ),
             ),
-            onPressed: isLoading ? null : _submit,
+            onPressed: _submit,
           ),
         ],
       ),
@@ -138,8 +127,8 @@ class _EditRewardPageState extends State<EditRewardPage> {
           signed: false,
           decimal: false,
         ),
-        initialValue: _amount != null ? _amount.toString() : '',
-        onSaved: (value) => _amount = int.parse(value),
+        initialValue: _minAmount != null ? _minAmount.toString() : '',
+        onSaved: (value) => _minAmount = int.parse(value),
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Percentage of Amount'),
@@ -147,18 +136,19 @@ class _EditRewardPageState extends State<EditRewardPage> {
           signed: false,
           decimal: false,
         ),
-        initialValue: _amount != null ? _amount.toString() : 0.toString(),
-        onSaved: (value) => _amount = int.parse(value),
+        initialValue:
+            _percentageOfAmount != null ? _percentageOfAmount.toString() : '',
+        onSaved: (value) => _percentageOfAmount = int.parse(value),
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'Reward Points'),
+        decoration: InputDecoration(
+            labelText: 'Min Reward Points Required for Redemption'),
         keyboardType: TextInputType.numberWithOptions(
           signed: false,
           decimal: false,
         ),
-        initialValue:
-            _rewardPoints != null ? _rewardPoints.toString() : 0.toString(),
-        onSaved: (value) => _rewardPoints = int.parse(value),
+        initialValue: _minRedeemLimit != null ? _minRedeemLimit.toString() : '',
+        onSaved: (value) => _minRedeemLimit = int.parse(value),
       ),
     ];
   }

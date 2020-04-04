@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:time_tracker_flutter_course/app/owner/models/bill.dart';
+import 'package:time_tracker_flutter_course/app/owner/models/reward.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
 
 class EditBillPage extends StatefulWidget {
@@ -34,9 +35,11 @@ class _EditBillPageState extends State<EditBillPage> {
   String _customerPhoneNumber;
   num _amount;
   num _rewardPoints;
+  Reward reward;
 
   @override
   void initState() {
+    setReward();
     super.initState();
     print("widget.organization");
     print(widget.bill?.id);
@@ -46,6 +49,10 @@ class _EditBillPageState extends State<EditBillPage> {
       _amount = widget.bill.amount;
       _rewardPoints = widget.bill.rewardPoints;
     }
+  }
+
+  void setReward() async {
+    reward = await widget.database.RewardSettingStream().first;
   }
 
   bool _validateAndSaveForm() {
@@ -133,50 +140,6 @@ class _EditBillPageState extends State<EditBillPage> {
 
   List<Widget> _buildFormChildren() {
     return [
-//      Card(
-//        child: Padding(
-//          padding: const EdgeInsets.all(16.0),
-//          child: Column(
-//            children: <Widget>[
-//              TextFormField(
-//                decoration: InputDecoration(labelText: 'Organization name'),
-//                initialValue: _name,
-//                validator: (value) =>
-//                    value.isNotEmpty ? null : 'Name can\'t be empty',
-//                onSaved: (value) {
-//                  print("Name value is");
-//                  print(value);
-//                  _name = value;
-//                },
-//              ),
-//              TextFormField(
-//                decoration: InputDecoration(labelText: 'Organization Address'),
-//                initialValue: _address,
-//                onSaved: (value) => _address = value,
-//              ),
-//              TextFormField(
-//                decoration: InputDecoration(labelText: 'Owner Phone Number'),
-//                initialValue: _ownerPhoneNumber,
-//                maxLength: 10,
-//                keyboardType: TextInputType.numberWithOptions(
-//                  signed: false,
-//                  decimal: false,
-//                ),
-//                onChanged: (v) async {
-//                  await setPhoneNumberErrorText(v);
-//                },
-//                validator: (v) => phoneNumberVaridationErrorText,
-//                onSaved: (value) => _ownerPhoneNumber = value,
-//              ),
-//            ],
-//          ),
-//        ),
-//      ),
-//      Padding(
-//        padding: const EdgeInsets.all(16.0),
-//        child: Text("Organization Details",
-//        style: TextStyle(fontSize: 16),),
-//      ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Customer Phone Number'),
         initialValue: _customerPhoneNumber,
@@ -194,7 +157,9 @@ class _EditBillPageState extends State<EditBillPage> {
           signed: false,
           decimal: false,
         ),
-        initialValue: _amount != null ? _amount.toString() : 0.toString(),
+        onChanged: (v) =>
+            _rewardPoints = int.parse(v) * reward.percentageOfAmount,
+        initialValue: _amount != null ? _amount.toString() : '',
         onSaved: (value) => _amount = int.parse(value),
       ),
       TextFormField(
@@ -203,8 +168,10 @@ class _EditBillPageState extends State<EditBillPage> {
           signed: false,
           decimal: false,
         ),
-        initialValue:
-            _rewardPoints != null ? _rewardPoints.toString() : 0.toString(),
+        readOnly: true,
+        controller: TextEditingController(text: _rewardPoints.toString())
+            .addListener(listener),
+//        initialValue: _rewardPoints != null ? _rewardPoints.toString() : '',
         onSaved: (value) => _rewardPoints = int.parse(value),
       ),
     ];

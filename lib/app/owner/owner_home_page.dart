@@ -14,11 +14,11 @@ class OnwerHomePage extends StatefulWidget {
 }
 
 class _OnwerHomePageState extends State<OnwerHomePage> {
-  TabItem _currentTab = TabItem.jobs;
+  TabItem _currentTab = TabItem.rewards;
 
   final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
-    TabItem.jobs: GlobalKey<NavigatorState>(),
     TabItem.rewards: GlobalKey<NavigatorState>(),
+    TabItem.jobs: GlobalKey<NavigatorState>(),
     TabItem.home_page: GlobalKey<NavigatorState>(),
     TabItem.account: GlobalKey<NavigatorState>(),
   };
@@ -26,8 +26,8 @@ class _OnwerHomePageState extends State<OnwerHomePage> {
   Map<TabItem, WidgetBuilder> get widgetBuilders {
     print('buildingwidger');
     return {
-      TabItem.jobs: (_) => BillsPage(),
       TabItem.rewards: (_) => RewardsPage(),
+      TabItem.jobs: (_) => BillsPage(),
       TabItem.home_page: (context) => EntriesPage.create(context),
       TabItem.account: (_) => AccountPage(),
     };

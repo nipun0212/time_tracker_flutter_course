@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/app/home/jobs/edit_job_page.dart';
 import 'package:time_tracker_flutter_course/app/owner/models/reward.dart';
+import 'package:time_tracker_flutter_course/app/owner/rewards/edit_reward_page.dart';
 import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
 
@@ -24,16 +24,16 @@ class RewardsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bills'),
-        actions: <Widget>[
+        title: Text('Reward Settings'),
+        /* actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add, color: Colors.white),
-            onPressed: () => EditJobPage.show(
+            onPressed: () => EditRewardPage.show(
               context,
               database: Provider.of<Database>(context, listen: false),
             ),
           ),
-        ],
+        ],*/
       ),
       body: _buildContents(context),
     );
@@ -42,12 +42,39 @@ class RewardsPage extends StatelessWidget {
   Widget _buildContents(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
     return StreamBuilder<Reward>(
-      stream: database.RewardSettingStream(),
-      builder: (context, snapshot) {
-        return Card(
-          child: Text(snapshot.data?.minRedeemLimit.toString()),
-        );
-      },
-    );
+        stream: database.RewardSettingStream(),
+        builder: (context, snapshot) {
+          return GestureDetector(
+            onTap: () => EditRewardPage.show(context,
+                database: Provider.of<Database>(context, listen: false),
+                reward: snapshot.data),
+            child: Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text('Reward Setting'),
+                  Row(
+                    children: <Widget>[
+                      Text('Minimum Amount  '),
+                      Text(snapshot.data?.minAmount.toString()),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Percentage of Amount  '),
+                      Text(snapshot.data?.percentageOfAmount.toString()),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Minimum Redeem Limit  '),
+                      Text(snapshot.data?.minRedeemLimit.toString()),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

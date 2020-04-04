@@ -13,5 +13,8 @@ export const organization = (organizationID: string) => `organizations/${organiz
 export const organizationRef = (organizationID: string) => admin.firestore().doc(`organizations/${organizationID}`);
 export const organizationUserRoles = (organizationID: string) => `organizations/${organizationID}/private/roles`;
 export const organizationUserRolesRef = (organizationID: string) => admin.firestore().doc(`organizations/${organizationID}/private/roles`);
+export const RewardSettings = (organizationID: string) => `organizations/${organizationID}/private/rewardSetting`;
+export const RewardSettingsRef = (organizationID: string) => admin.firestore().doc(`organizations/${organizationID}/private/rewardSetting`);
+
 
 

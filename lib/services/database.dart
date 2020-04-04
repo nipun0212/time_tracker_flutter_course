@@ -37,6 +37,7 @@ abstract class Database {
 
   Stream<List<Bill>> billStream(q(Query query));
   Stream<Reward> RewardSettingStream();
+  Future<void> setReward(Reward reward);
 }
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -81,6 +82,13 @@ class FirestoreDatabase implements Database {
         path: APIPath.bills(user.organizationDocId),
         data: bill.toMap(),
       );
+  }
+
+  Future<void> setReward(Reward reward) async {
+    await _service.setData(
+      path: APIPath.rewardSetting(user.organizationDocId),
+      data: reward.toMap(),
+    );
   }
 
   @override

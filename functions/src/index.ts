@@ -26,7 +26,7 @@ const db = admin.firestore();
 //   projectId: "timetracker-9d0b4",
 //   keyFilename: "/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/timetracker-f6322943c258.json"
 // });
-const _setSuperAdminCustomClaims =async ()=>await admin.auth().setCustomUserClaims(await _getSuperAdminUID(),{
+const _setSuperAdminCustomClaims = async () => await admin.auth().setCustomUserClaims(await _getSuperAdminUID(), {
   isSuperAdmin: true
 })
 const _getSuperAdminUID = (): Promise<string> => _getUIDFromPhoneNumber("+918971819883");
@@ -204,6 +204,11 @@ exports.organizationInitialize = functions.firestore
     const userJSON = {
       "phoneNumber": ownerCurrentPhoneNumber
     }
+    const rewardSettingJSON = {
+      'minAmount': 0,
+      'minRedeemLimit': 0,
+      'percentageOfAmount': 0
+    }
     await admin.auth().setCustomUserClaims(organizationOwnerUIDAfter, {
       isOwner: true,
       organizationDocId: organizationID
@@ -221,6 +226,7 @@ exports.organizationInitialize = functions.firestore
         t.set(apiPath.organizationUserRolesRef(organizationID), roleJSON, { merge: true });
         t.set(apiPath.userRef(organizationOwnerUIDAfter), userJSON, { merge: true })
         t.set(apiPath.userOrganizationsRef(organizationOwnerUIDAfter, organizationID), {}, { merge: true })
+        t.set(apiPath.RewardSettingsRef(organizationID), rewardSettingJSON, { merge: true })
       });
     } catch (e) {
       throw new Error(e);
