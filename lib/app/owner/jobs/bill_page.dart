@@ -13,7 +13,7 @@ class BillsPage extends StatelessWidget {
   Future<void> _delete(BuildContext context, Bill bill) async {
     try {
       final database = Provider.of<Database>(context, listen: false);
-//      await database.deleteJob(bill);
+      await database.deleteBill(bill);
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
         title: 'Operation failed',
