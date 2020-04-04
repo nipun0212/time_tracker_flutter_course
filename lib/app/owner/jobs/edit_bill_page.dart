@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:time_tracker_flutter_course/app/owner/models/bill.dart';
@@ -115,6 +117,7 @@ class _EditBillPageState extends State<EditBillPage> {
   }
 
   Widget _buildContents() {
+    final _controller = StreamController();
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -157,8 +160,12 @@ class _EditBillPageState extends State<EditBillPage> {
           signed: false,
           decimal: false,
         ),
-        onChanged: (v) =>
-            _rewardPoints = int.parse(v) * reward.percentageOfAmount,
+        onChanged: (v) {
+          print('reward setting is ${reward.toMap()}');
+          setState(() {
+            _rewardPoints = int.parse(v) * (reward.percentageOfAmount / 100);
+          });
+        },
         initialValue: _amount != null ? _amount.toString() : '',
         onSaved: (value) => _amount = int.parse(value),
       ),
@@ -169,10 +176,9 @@ class _EditBillPageState extends State<EditBillPage> {
           decimal: false,
         ),
         readOnly: true,
-        controller: TextEditingController(text: _rewardPoints.toString())
-            .addListener(listener),
+        controller: TextEditingController(text: _rewardPoints.toString()),
 //        initialValue: _rewardPoints != null ? _rewardPoints.toString() : '',
-        onSaved: (value) => _rewardPoints = int.parse(value),
+        onSaved: (value) => _rewardPoints = double.parse(value),
       ),
     ];
   }

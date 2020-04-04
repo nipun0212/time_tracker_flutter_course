@@ -1,4 +1,3 @@
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,27 +54,32 @@ class BillsPage extends StatelessWidget {
             direction: DismissDirection.endToStart,
             onDismissed: (direction) => _delete(context, bill),
             child: BillListTile(
-                bill: bill,
-                onTap: () async {
-                  print('current user called');
-//                CloudFunctions.instance.useFunctionsEmulator(origin: "http://localhost:5001");
+              bill: bill,
+              onTap: () => EditBillPage.show(context,
+                  database: Provider.of<Database>(context, listen: false),
+                  bill: bill),
 
-//                CloudFunctions.instance.useFunctionsEmulator(origin: "http://0.0.0.0:5001");
-                  final HttpsCallable callable =
-                      CloudFunctions.instance.getHttpsCallable(
-                    functionName: 'addMessage',
-                  );
-                  print('resp1');
-                  try {
-                    dynamic resp = await callable.call();
-                    print('resp');
-//                  print(resp.getData());
-                    print(resp.data);
-                  } catch (e) {
-                    print(e);
-                  }
-                  print('done');
-                }),
+//                async {
+//                  print('current user called');
+////                CloudFunctions.instance.useFunctionsEmulator(origin: "http://localhost:5001");
+//
+////                CloudFunctions.instance.useFunctionsEmulator(origin: "http://0.0.0.0:5001");
+//                  final HttpsCallable callable =
+//                      CloudFunctions.instance.getHttpsCallable(
+//                    functionName: 'addMessage',
+//                  );
+//                  print('resp1');
+//                  try {
+//                    dynamic resp = await callable.call();
+//                    print('resp');
+////                  print(resp.getData());
+//                    print(resp.data);
+//                  } catch (e) {
+//                    print(e);
+//                  }
+//                  print('done');
+//                }
+            ),
           ),
         );
       },
