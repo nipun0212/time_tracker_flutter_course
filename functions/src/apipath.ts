@@ -6,15 +6,22 @@ export const userRef = (userUID: string) => admin.firestore().doc(`users/${userU
 export const userOTP = (userUID: string) => `users/${userUID}/private/otp`;
 export const userOTPRef = (userUID: string) => admin.firestore().doc(`users/${userUID}/private/otp`);
 export const userOrganizations = (userUID: string) => `users/${userUID}/organizations`;
-export const userOrganizationsRef = (userUID: string,organizationID: string) => admin.firestore().doc(`users/${userUID}/organizations/${organizationID}`);
+export const userOrganizationsRef = (userUID: string, organizationId: string) => admin.firestore().doc(`users/${userUID}/organizations/${organizationId}`);
 export const organizations = () => `organizations`;
 export const organizationsRef = () => admin.firestore().doc(`organizations`);
-export const organization = (organizationID: string) => `organizations/${organizationID}`;
-export const organizationRef = (organizationID: string) => admin.firestore().doc(`organizations/${organizationID}`);
-export const organizationUserRoles = (organizationID: string) => `organizations/${organizationID}/private/roles`;
-export const organizationUserRolesRef = (organizationID: string) => admin.firestore().doc(`organizations/${organizationID}/private/roles`);
-export const RewardSettings = (organizationID: string) => `organizations/${organizationID}/private/rewardSetting`;
-export const RewardSettingsRef = (organizationID: string) => admin.firestore().doc(`organizations/${organizationID}/private/rewardSetting`);
+export const organization = (organizationId: string) => `organizations/${organizationId}`;
+export const organizationRef = (organizationId: string) => admin.firestore().doc(`organizations/${organizationId}`);
+export const organizationUserRoles = (organizationId: string) => `organizations/${organizationId}/private/roles`;
+export const organizationUserRolesRef = (organizationId: string) => admin.firestore().doc(`organizations/${organizationId}/private/roles`);
+export const RewardSettings = (organizationId: string) => `organizations/${organizationId}/private/rewardSetting`;
+export const RewardSettingsRef = (organizationId: string) => admin.firestore().doc(`organizations/${organizationId}/private/rewardSetting`);
+export const billCounterTotal = (organizationId: string) => `organizations/${organizationId}/billCounter/total`;
+export const billCounterTotalRef = (organizationId: string) => admin.firestore().doc(`organizations/${organizationId}/billCounter/total`);
+export const billCounterCollection = (organizationId: string) => `organizations/${organizationId}/billCounter`;
+export const billCounterCollectionRef = (organizationId: string) => admin.firestore().collection(`organizations/${organizationId}/billCounter`);
+export const bill = (organizationId: string,billId:string) => `organizations/${organizationId}/bill/${billId}`;
+
+
 
 
 

@@ -9,14 +9,14 @@ import * as util from './util';
 //   projectId: "timetracker-9d0b4"
 // });
 
-var serviceAccount = require("/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/sec.json");
+// var serviceAccount = require("/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/sec.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://timetracker-9d0b4.firebaseio.com"
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://timetracker-9d0b4.firebaseio.com"
+// });
 
-// admin.initializeApp();
+admin.initializeApp();
 const db = admin.firestore();
 // console.log(process.env.FIREBASE_CONFIG);
 // console.log(window?.location.hostname);
@@ -26,9 +26,9 @@ const db = admin.firestore();
 //   projectId: "timetracker-9d0b4",
 //   keyFilename: "/Users/i309795/Documents/GitHub/time_tracker_flutter_course/functions/timetracker-f6322943c258.json"
 // });
-const _setSuperAdminCustomClaims = async () => await admin.auth().setCustomUserClaims(await _getSuperAdminUID(), {
-  isSuperAdmin: true
-})
+// const _setSuperAdminCustomClaims = async () => await admin.auth().setCustomUserClaims(await _getSuperAdminUID(), {
+//   isSuperAdmin: true
+// })
 const _getSuperAdminUID = (): Promise<string> => _getUIDFromPhoneNumber("+918971819883");
 const _userExists = async (uid: string): Promise<boolean> => (await db.doc(apiPath.user(uid)).get()).exists;
 // const _getOrganizationWithOwnerPhoneNumber = async (phoneNumber: string) => await db.collection(apiPath.organizations()).where('ownerPhoneNumber', '==', phoneNumber).get();
@@ -71,17 +71,41 @@ export const _createUserWithPhoneNumber = async function (phoneNumber: string) {
 
 
 export const helloWorld = functions.https.onRequest(async (request, response) => {
-  await _setSuperAdminCustomClaims();
-  console.log(await admin.auth().getUser(await _getSuperAdminUID()));
-  console.log(await admin.auth().getUser(await _getUIDFromPhoneNumber('+919997086055')));
+  const oraganizationDocId = 'accSqc5Qw1HVzh3BSmCS';
+  const snap = {
+    id: 'pztL46Ra1J5uggJhnFMT',
+    ref: db.doc('organizations/{oraganizationDocId}/bills/"pztL46Ra1J5uggJhnFMT"')
+  }
+  if (await (await db.doc(snap.id).get()).data()?.id)
+    return
+  await db.runTransaction(async (t: admin.firestore.Transaction) => {
+    let billId;
+    const billCounter = (await t.get(apiPath.billCounterTotalRef(oraganizationDocId))).data();
+    if (billCounter === undefined)
+      billId = 1;
+    else
+      billId = billCounter.count + 1;
+    t.set(snap.ref, { id: billId }, { merge: true });
+    t.update(apiPath.billCounterTotalRef(oraganizationDocId), 'count', admin.firestore.FieldValue.increment(1));
+  });
+  const date: Date = new Date();
+  console.log(date.getVarDate);
+  console.log(date.getDate());
+  console.log(date.getUTCDate());
+  console.log(date.toUTCString());
+  console.log(date.toString().split('T')[0]);
 
-  const phoneNumber = '+918971819883';
-  const userUID: string = await _getUIDFromPhoneNumber(phoneNumber);
-  // console.log(await (await _getOrganizationWithOwnerPhoneNumber(phoneNumber)).docs.forEach(v=>{
-  //   console.log(v.data?.ownerPhoneNumber);
-  // }));
-  console.log('useruid=' + userUID);
-  console.log('user = ' + await (await db.doc(apiPath.user(userUID)).get()).exists);
+  // await _setSuperAdminCustomClaims();
+  // console.log(await admin.auth().getUser(await _getSuperAdminUID()));
+  // console.log(await admin.auth().getUser(await _getUIDFromPhoneNumber('+919997086055')));
+
+  // const phoneNumber = '+918971819883';
+  // const userUID: string = await _getUIDFromPhoneNumber(phoneNumber);
+  // // console.log(await (await _getOrganizationWithOwnerPhoneNumber(phoneNumber)).docs.forEach(v=>{
+  // //   console.log(v.data?.ownerPhoneNumber);
+  // // }));
+  // console.log('useruid=' + userUID);
+  // console.log('user = ' + await (await db.doc(apiPath.user(userUID)).get()).exists);
   // var ma = await admin.firestore().collection('mail').add({
   //   to: 'annubajaj05@gmail.com',
   //   message: {
@@ -248,7 +272,31 @@ exports.addMessage = functions.https.onCall((data, context) => {
 })
 
 
+exports.populateBillId = functions.firestore
+  .document('organizations/{oraganizationDocId}/bills/{billDocId}').onCreate(async (snap, context) => {
+    console.log('snap.id');
+    console.log(snap.id);
+    console.log('snap.ref');
+    console.log(snap.ref);
 
+    const oraganizationDocId = context.params.oraganizationDocId;
+    if (await (await db.doc(apiPath.bill(oraganizationDocId, snap.id)).get()).data()?.id)
+      return
+    await db.runTransaction(async (t: admin.firestore.Transaction) => {
+      let billId;
+      const billCounter = (await t.get(apiPath.billCounterTotalRef(oraganizationDocId))).data();
+      if (billCounter === undefined)
+        billId = 1;
+      else
+        billId = billCounter.count + 1;
+      t.set(snap.ref, { id: billId }, { merge: true });
+      t.set(apiPath.billCounterTotalRef(oraganizationDocId), {
+        'count': admin.firestore.FieldValue.increment(1),
+        'lastUpdateTime': new Date()
+      }, { merge: true });
+      // t.update(apiPath.billCounterTotalRef(oraganizationDocId), 'count', admin.firestore.FieldValue.increment(1));
+    });
+  });
 
 // console.log("change.after.id");
 // console.log(change.after.id);
