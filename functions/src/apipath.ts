@@ -7,6 +7,7 @@ export const userOTP = (userUID: string) => `users/${userUID}/private/otp`;
 export const userOTPRef = (userUID: string) => admin.firestore().doc(`users/${userUID}/private/otp`);
 export const userOrganizations = (userUID: string) => `users/${userUID}/organizations`;
 export const userOrganizationsRef = (userUID: string, organizationId: string) => admin.firestore().doc(`users/${userUID}/organizations/${organizationId}`);
+export const userCustomerOf = (userUID: string, organizationId: string) => `users/${userUID}/customerOf/${organizationId}`;
 export const organizations = () => `organizations`;
 export const organizationsRef = () => admin.firestore().doc(`organizations`);
 export const organization = (organizationId: string) => `organizations/${organizationId}`;
@@ -19,8 +20,8 @@ export const billCounterTotal = (organizationId: string) => `organizations/${org
 export const billCounterTotalRef = (organizationId: string) => admin.firestore().doc(`organizations/${organizationId}/billCounter/total`);
 export const billCounterCollection = (organizationId: string) => `organizations/${organizationId}/billCounter`;
 export const billCounterCollectionRef = (organizationId: string) => admin.firestore().collection(`organizations/${organizationId}/billCounter`);
-export const bill = (organizationId: string,billId:string) => `organizations/${organizationId}/bill/${billId}`;
-export const customer =  (organizationId: string,customerUID:string) => `organizations/${organizationId}/customers/${customerUID}`;
-export const customers =  (organizationId: string,customerUID:string) => `organizations/${organizationId}/customers`;
+export const bill = (organizationId: string, billId: string) => `organizations/${organizationId}/bill/${billId}`;
+export const customer = (organizationId: string, customerUID: string) => `organizations/${organizationId}/customers/${customerUID}`;
+export const customers = (organizationId: string, customerUID: string) => `organizations/${organizationId}/customers`;
 
 

@@ -71,7 +71,7 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<void> setBill(Bill bill, bool isUpdate) async {
-    bill.uid = user.uid;
+    bill.updatedBy = user.uid;
     if (isUpdate)
       await _service.setData(
         path: APIPath.bill(user.organizationDocId, bill.id),
@@ -138,10 +138,12 @@ class FirestoreDatabase implements Database {
   }
 
   @override
-  Stream<List<Bill>> billStream(q(Query query)) => _service.collectionStream(
-      path: APIPath.bills(user.organizationDocId),
-      builder: (data, documentId) => Bill.fromMap(data, documentId),
-      queryBuilder: q);
+  Stream<List<Bill>> billStream(q(Query query)) {
+    return _service.collectionStream(
+        path: APIPath.bills(user.organizationDocId),
+        builder: (data, documentId) => Bill.fromMap(data, documentId),
+        queryBuilder: q);
+  }
 
   @override
   Future<void> setEntry(Entry entry) async => await _service.setData(

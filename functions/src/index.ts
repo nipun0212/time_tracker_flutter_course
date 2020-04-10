@@ -299,13 +299,23 @@ exports.populateBillIdAndAddCustomer = functions.firestore
         'count': admin.firestore.FieldValue.increment(1),
         'lastUpdateTime': new Date()
       }, { merge: true });
-      // t.update(apiPath.billCounterTotalRef(oraganizationDocId), 'count', admin.firestore.FieldValue.increment(1));
       try {
-        t.create(db.doc(apiPath.customer(oraganizationDocId, customerUID)), {});
+        t.set(db.doc(apiPath.customer(oraganizationDocId, customerUID)), {
+          phoneNumber: snap.data()?.customerPhoneNumber,
+          totalBillsPaid: admin.firestore.FieldValue.increment(snap.data()?.amount),
+          totalRewardPoints: admin.firestore.FieldValue.increment(snap.data()?.rewardPoints),
+        }, { merge: true })
       } catch (e) {
-        if (e.errorInfo.code === 'auth/user-not-found') {
-        }
-      });
+        console.log("Customer addition failed with");
+        console.log(e);
+      };
+      t.set(db.doc(apiPath.userCustomerOf(customerUID, oraganizationDocId)),
+        {
+          billId: context.params.billDocId,
+          totalAmountPaid: admin.firestore.FieldValue.increment(snap.data()?.amount),
+          totalRewardPoints: admin.firestore.FieldValue.increment(snap.data()?.rewardPoints),
+        }, { merge: true })
+    });
   });
 
 // console.log("change.after.id");

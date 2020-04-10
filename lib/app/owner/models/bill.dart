@@ -3,13 +3,13 @@ import 'package:meta/meta.dart';
 class Bill {
   Bill(
       {this.id,
-      this.uid,
+      this.updatedBy,
       @required this.amount,
       @required this.rewardPoints,
       @required this.customerPhoneNumber});
 
   final String id;
-  String uid;
+  String updatedBy;
   final String customerPhoneNumber;
   final num amount;
   final num rewardPoints;
@@ -19,14 +19,14 @@ class Bill {
       return null;
     }
     print(data);
-    final String uid = data['uid'];
+    final String updatedBy = data['updatedBy'];
     final String customerPhoneNumber = data['customerPhoneNumber'];
     final num amount = data['amount'];
     final num rewardPoints = data['rewardPoints'];
 
     return Bill(
         id: documentId,
-        uid: uid,
+        updatedBy: updatedBy,
         amount: amount,
         rewardPoints: rewardPoints,
         customerPhoneNumber: customerPhoneNumber);
@@ -34,7 +34,7 @@ class Bill {
 
   Map<String, dynamic> toMap() {
     return {
-      'uid': uid,
+      'updatedBy': updatedBy,
       'amount': amount,
       'rewardPoints': rewardPoints,
       'customerPhoneNumber': customerPhoneNumber,
