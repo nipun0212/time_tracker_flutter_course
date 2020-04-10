@@ -11,6 +11,7 @@ class BillListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(bill.amount.toString()),
+      subtitle: Text(bill.id),
       trailing: Icon(Icons.chevron_right),
       onTap: onTap,
     );

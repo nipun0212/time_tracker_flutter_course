@@ -162,8 +162,12 @@ class _EditBillPageState extends State<EditBillPage> {
         ),
         onChanged: (v) {
           print('reward setting is ${reward.toMap()}');
+          final amt = int.parse(v);
           setState(() {
-            _rewardPoints = int.parse(v) * (reward.percentageOfAmount / 100);
+            if (amt >= reward.minAmount)
+              _rewardPoints = int.parse(v) * (reward.percentageOfAmount / 100);
+            else
+              _rewardPoints = 0;
           });
         },
         initialValue: _amount != null ? _amount.toString() : '',
@@ -176,7 +180,8 @@ class _EditBillPageState extends State<EditBillPage> {
           decimal: false,
         ),
         readOnly: true,
-        controller: TextEditingController(text: _rewardPoints.toString()),
+        controller: TextEditingController(
+            text: _rewardPoints != null ? _rewardPoints.toString() : ''),
 //        initialValue: _rewardPoints != null ? _rewardPoints.toString() : '',
         onSaved: (value) => _rewardPoints = double.parse(value),
       ),

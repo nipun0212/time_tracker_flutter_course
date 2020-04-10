@@ -4,14 +4,15 @@ import 'package:time_tracker_flutter_course/app/home/jobs/empty_content.dart';
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
 class ListItemsBuilder<T> extends StatelessWidget {
-  const ListItemsBuilder({
-    Key key,
-    @required this.snapshot,
-    @required this.itemBuilder,
-  }) : super(key: key);
+  const ListItemsBuilder(
+      {Key key,
+      @required this.snapshot,
+      @required this.itemBuilder,
+      @required this.onEnd})
+      : super(key: key);
   final AsyncSnapshot<List<T>> snapshot;
   final ItemWidgetBuilder<T> itemBuilder;
-
+  final VoidCallback onEnd;
   @override
   Widget build(BuildContext context) {
     if (snapshot.hasData) {
@@ -31,8 +32,14 @@ class ListItemsBuilder<T> extends StatelessWidget {
   }
 
   Widget _buildList(List<T> items) {
+    ScrollController _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      this.onEnd();
+      print('rached end');
+    });
     return ListView.separated(
       itemCount: items.length + 2,
+      controller: _scrollController,
       separatorBuilder: (context, index) => Divider(height: 0.5),
       itemBuilder: (context, index) {
         if (index == 0 || index == items.length + 1) {

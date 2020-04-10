@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +10,34 @@ import 'package:time_tracker_flutter_course/app/owner/models/bill.dart';
 import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
 
-class BillsPage extends StatelessWidget {
+class BillsPage extends StatefulWidget {
+  BillsPage({Key key}) : super(key: key);
+
+  @override
+  _BillsPageState createState() {
+    return _BillsPageState();
+  }
+}
+
+class _BillsPageState extends State<BillsPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  static String get executable => "q.limit(l).orderBy('amount')";
+  int l = 10;
+  void setLimit() {
+    setState(() {
+      l = l + 4;
+    });
+  }
+
   Future<void> _delete(BuildContext context, Bill bill) async {
     try {
       final database = Provider.of<Database>(context, listen: false);
@@ -29,25 +57,32 @@ class BillsPage extends StatelessWidget {
         title: Text('Bills'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.add, color: Colors.white),
-            onPressed: () => EditBillPage.show(
-              context,
-              database: Provider.of<Database>(context, listen: false),
-            ),
-          ),
+              icon: Icon(Icons.add, color: Colors.white),
+              onPressed: () => {
+                    EditBillPage.show(
+                      context,
+                      database: Provider.of<Database>(context, listen: false),
+                    )
+                  }),
         ],
       ),
       body: _buildContents(context),
     );
   }
 
+  Query c(Query q) {
+    setLimit();
+    return q.limit(l).orderBy('amount');
+  }
+
   Widget _buildContents(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
     return StreamBuilder<List<Bill>>(
-      stream: database.billStream(null),
+      stream: database.billStream(c),
       builder: (context, snapshot) {
         return ListItemsBuilder<Bill>(
           snapshot: snapshot,
+          onEnd: setLimit,
           itemBuilder: (context, bill) => Dismissible(
             key: Key('bill-${bill.id}'),
             background: Container(color: Colors.red),

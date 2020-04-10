@@ -272,7 +272,7 @@ exports.addMessage = functions.https.onCall((data, context) => {
 })
 
 
-exports.populateBillId = functions.firestore
+exports.populateBillIdAndAddCustomer = functions.firestore
   .document('organizations/{oraganizationDocId}/bills/{billDocId}').onCreate(async (snap, context) => {
     console.log('snap.id');
     console.log(snap.id);
@@ -282,6 +282,7 @@ exports.populateBillId = functions.firestore
     const oraganizationDocId = context.params.oraganizationDocId;
     if (await (await db.doc(apiPath.bill(oraganizationDocId, snap.id)).get()).data()?.id)
       return
+    const customerUID = await _getUIDFromPhoneNumber(snap.data()?.customerPhoneNumber);
     await db.runTransaction(async (t: admin.firestore.Transaction) => {
       let billId;
       const billCounter = (await t.get(apiPath.billCounterTotalRef(oraganizationDocId))).data();
@@ -289,13 +290,22 @@ exports.populateBillId = functions.firestore
         billId = 1;
       else
         billId = billCounter.count + 1;
-      t.set(snap.ref, { id: billId }, { merge: true });
+      t.set(snap.ref, {
+        id: billId,
+        customerUID: customerUID,
+        organizationId: oraganizationDocId
+      }, { merge: true });
       t.set(apiPath.billCounterTotalRef(oraganizationDocId), {
         'count': admin.firestore.FieldValue.increment(1),
         'lastUpdateTime': new Date()
       }, { merge: true });
       // t.update(apiPath.billCounterTotalRef(oraganizationDocId), 'count', admin.firestore.FieldValue.increment(1));
-    });
+      try {
+        t.create(db.doc(apiPath.customer(oraganizationDocId, customerUID)), {});
+      } catch (e) {
+        if (e.errorInfo.code === 'auth/user-not-found') {
+        }
+      });
   });
 
 // console.log("change.after.id");

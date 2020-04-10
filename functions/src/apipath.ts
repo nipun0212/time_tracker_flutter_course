@@ -20,8 +20,7 @@ export const billCounterTotalRef = (organizationId: string) => admin.firestore()
 export const billCounterCollection = (organizationId: string) => `organizations/${organizationId}/billCounter`;
 export const billCounterCollectionRef = (organizationId: string) => admin.firestore().collection(`organizations/${organizationId}/billCounter`);
 export const bill = (organizationId: string,billId:string) => `organizations/${organizationId}/bill/${billId}`;
-
-
-
+export const customer =  (organizationId: string,customerUID:string) => `organizations/${organizationId}/customers/${customerUID}`;
+export const customers =  (organizationId: string,customerUID:string) => `organizations/${organizationId}/customers`;
 
 
